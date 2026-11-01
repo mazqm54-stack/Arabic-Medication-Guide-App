@@ -1,0 +1,136 @@
+/**
+ * Interface Contracts and Runtime Validators for E2E Test Suite
+ * Strictly derived from PROJECT.md § Interface Contracts and ORIGINAL_REQUEST.md
+ */
+
+export interface PrescriptionItem {
+  line_text_as_written: string;
+  medicine_name_ar: string;
+  medicine_name_en: string;
+  active_ingredient: string;
+  confidence: 'high' | 'medium' | 'low';
+  written_instructions: string;
+  short_explanation: string;
+}
+
+export interface PrescriptionAnalysisResult {
+  is_clear: boolean;
+  retake_message: string;
+  confidence: 'high' | 'medium' | 'low';
+  evidence_text: string;
+  items: PrescriptionItem[];
+  audio_summary: string;
+}
+
+export interface BoxAnalysisResult {
+  is_clear: boolean;
+  retake_message: string;
+  confidence: 'high' | 'medium' | 'low';
+  evidence_text: string;
+  medicine_name_ar: string;
+  medicine_name_en: string;
+  active_ingredient: string;
+  uses: string[];
+  how_and_when: string[];
+  usage_source: 'printed' | 'common';
+  warnings: string[];
+  audio_summary: string;
+}
+
+export interface WorkerErrorResponse {
+  is_clear: false;
+  error: 'UPSTREAM_TIMEOUT' | 'UPSTREAM_API_ERROR' | 'RATE_LIMIT_EXCEEDED' | 'PAYLOAD_TOO_LARGE' | 'BAD_REQUEST' | 'METHOD_NOT_ALLOWED';
+  error_code: string;
+  retake_message: string;
+  detail?: string;
+}
+
+export type TabKey = 'home' | 'medicines' | 'camera' | 'prescription' | 'history';
+
+export const RTL_NAV_TABS: Array<{ key: TabKey; label: string; icon: string }> = [
+  { key: 'home', label: 'الرئيسية', icon: 'Home' },
+  { key: 'medicines', label: 'أدويتي', icon: 'Pill' },
+  { key: 'camera', label: 'صوّر', icon: 'Camera' },
+  { key: 'prescription', label: 'الروشتة', icon: 'FileText' },
+  { key: 'history', label: 'السجل', icon: 'History' },
+];
+
+export const HARDCODED_DISCLAIMER_LINE = 'هذا الاستخدام الشائع، ويختلف من شخص لآخر ومن حالة لأخرى. اتبع تعليمات طبيبك أو الصيدلي.';
+export const PRESCRIPTION_ADVISORY_BANNER = 'راجع أسماء الأدوية قبل الاعتماد';
+export const LOW_CONFIDENCE_AMBER_TEXT = 'غير واضح، اسأل الصيدلي';
+
+/**
+ * Validates whether an object adheres to the PrescriptionAnalysisResult schema
+ */
+export function validatePrescriptionSchema(data: any): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: ['Response is not an object'] };
+  }
+
+  if (typeof data.is_clear !== 'boolean') errors.push('is_clear must be a boolean');
+  if (typeof data.retake_message !== 'string') errors.push('retake_message must be a string');
+  if (!['high', 'medium', 'low'].includes(data.confidence)) errors.push('confidence must be high, medium, or low');
+  if (typeof data.evidence_text !== 'string') errors.push('evidence_text must be a string');
+  if (typeof data.audio_summary !== 'string') errors.push('audio_summary must be a string');
+
+  if (!Array.isArray(data.items)) {
+    errors.push('items must be an array');
+  } else {
+    if (data.items.length > 10) {
+      errors.push('items array exceeds maximum allowed 10 items');
+    }
+    data.items.forEach((item: any, idx: number) => {
+      if (typeof item.line_text_as_written !== 'string') errors.push(`items[${idx}].line_text_as_written must be string`);
+      if (typeof item.medicine_name_ar !== 'string') errors.push(`items[${idx}].medicine_name_ar must be string`);
+      if (typeof item.medicine_name_en !== 'string') errors.push(`items[${idx}].medicine_name_en must be string`);
+      if (typeof item.active_ingredient !== 'string') errors.push(`items[${idx}].active_ingredient must be string`);
+      if (!['high', 'medium', 'low'].includes(item.confidence)) errors.push(`items[${idx}].confidence must be high, medium, or low`);
+      if (typeof item.written_instructions !== 'string') errors.push(`items[${idx}].written_instructions must be string`);
+      if (typeof item.short_explanation !== 'string') errors.push(`items[${idx}].short_explanation must be string`);
+      
+      // Rule 4: Low-confidence items must have no AI explanation
+      if (item.confidence === 'low' && item.short_explanation.trim() !== '') {
+        errors.push(`items[${idx}] has low confidence but provides short_explanation (must be empty)`);
+      }
+    });
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+/**
+ * Validates whether an object adheres to the BoxAnalysisResult schema
+ */
+export function validateBoxSchema(data: any): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: ['Response is not an object'] };
+  }
+
+  if (typeof data.is_clear !== 'boolean') errors.push('is_clear must be a boolean');
+  if (typeof data.retake_message !== 'string') errors.push('retake_message must be a string');
+  if (!['high', 'medium', 'low'].includes(data.confidence)) errors.push('confidence must be high, medium, or low');
+  if (typeof data.evidence_text !== 'string') errors.push('evidence_text must be a string');
+  if (typeof data.medicine_name_ar !== 'string') errors.push('medicine_name_ar must be a string');
+  if (typeof data.medicine_name_en !== 'string') errors.push('medicine_name_en must be a string');
+  if (typeof data.active_ingredient !== 'string') errors.push('active_ingredient must be a string');
+
+  if (!Array.isArray(data.uses) || data.uses.length === 0) errors.push('uses must be a non-empty array');
+  
+  // Rule: how_and_when must NEVER be empty and must have 2-3 items
+  if (!Array.isArray(data.how_and_when) || data.how_and_when.length === 0) {
+    errors.push('how_and_when must NEVER be empty');
+  } else if (data.how_and_when.some((i: string) => i.includes('اتبع تعليمات الطبيب') && data.how_and_when.length === 1)) {
+    errors.push('how_and_when must not be a single generic "follow doctor" item');
+  }
+
+  if (!['printed', 'common'].includes(data.usage_source)) {
+    errors.push('usage_source must be either "printed" or "common"');
+  }
+
+  if (!Array.isArray(data.warnings) || data.warnings.length === 0) errors.push('warnings must be a non-empty array');
+  if (typeof data.audio_summary !== 'string') errors.push('audio_summary must be a string');
+
+  return { valid: errors.length === 0, errors };
+}

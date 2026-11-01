@@ -1,0 +1,20 @@
+name = "dalili-medication-guide-worker"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+
+[placement]
+mode = "smart"
+
+[vars]
+GEMINI_MODEL = "gemini-3.5-flash-lite"
+GEMINI_MODEL_PRESCRIPTION = "gemini-3.5-flash-lite"
+
+
+# Cloudflare Rate Limiting (10 requests per minute)
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+[ratelimits.simple]
+limit = 10
+period = 60

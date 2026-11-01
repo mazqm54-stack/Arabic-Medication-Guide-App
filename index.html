@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#006D77" />
+    <meta name="description" content="دليلي الدوائي - مساعد طبي ذكي باللغة العربية لكبار السن لقراءة وشرح علب الأدوية بدقة وتكبير واضح" />
+    
+    <!-- PWA & Mobile Web App Meta -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="دليلي الدوائي" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- Google Fonts Preconnect & Stylesheets (Cairo & Tajawal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>دليلي الدوائي | مساعد قراءة الأدوية لكبار السن</title>
+  </head>
+  <body class="bg-[#F8F9FA] text-[#1D3557] font-sans antialiased min-h-screen selection:bg-teal-100 selection:text-teal-900">
+    <noscript>
+      <div style="padding: 24px; text-align: center; font-size: 20px; font-family: sans-serif; background-color: #FEF3C7; color: #92400E;">
+        يرجى تفعيل الجافاسكريبت لتشغيل تطبيق دليلي الدوائي.
+      </div>
+    </noscript>
+    <div id="root" dir="rtl" class="min-h-screen flex flex-col"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

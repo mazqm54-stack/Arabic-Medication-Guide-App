@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --touch-min: 64px;
+    --text-primary: #1D3557;
+    --bg-primary: #F8F9FA;
+    --brand-teal: #006D77;
+    --amber-soft: #FEF3C7;
+    --amber-text: #92400E;
+  }
+
+  html {
+    direction: rtl;
+    font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 20px; /* Senior base default */
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    direction: rtl;
+    text-align: right;
+    line-height: 1.75;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+  }
+
+  /* Universal minimum touch target for interactive controls */
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="file"],
+  select {
+    min-height: 64px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  /* Senior Touch Target Utility */
+  .btn-touch {
+    min-height: 64px;
+    min-width: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 1.25rem; /* 20px+ */
+    font-weight: 700;
+    border-radius: 1rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-primary {
+    @apply btn-touch bg-teal-600 text-white hover:bg-teal-700 active:scale-[0.98] shadow-senior focus:ring-4 focus:ring-teal-200 outline-none;
+  }
+
+  .btn-secondary {
+    @apply btn-touch bg-white text-slate-900 border-2 border-slate-300 hover:bg-slate-50 active:scale-[0.98] focus:ring-4 focus:ring-slate-200 outline-none;
+  }
+
+  /* Safe Area Padding Utilities for Android devices */
+  .pb-safe {
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+  }
+  .pt-safe {
+    padding-top: max(0px, env(safe-area-inset-top, 0px));
+  }
+
+  /* Transitions capped under 250ms for native snappiness */
+  .transition-native {
+    transition-duration: 200ms;
+  }
+
+  /* Color-Coded Card Bases */
+  .card-senior {
+    @apply rounded-2xl p-6 shadow-senior border-2 transition-all;
+  }
+
+  /* Card 1: Medicine Identity (Teal border & accent) */
+  .card-identity {
+    @apply card-senior bg-white border-teal-600 text-slate-900;
+  }
+
+  /* Card 2: Uses (Blue/Slate border) */
+  .card-uses {
+    @apply card-senior bg-white border-blue-600 text-slate-900;
+  }
+
+  /* Card 3: Dosage & Schedule (Emerald border) */
+  .card-schedule {
+    @apply card-senior bg-white border-emerald-600 text-slate-900;
+  }
+
+  /* Card 4: Warnings & Cautions (Soft Amber Background) */
+  .card-warnings {
+    @apply card-senior bg-[#FEF3C7] border-amber-500 text-[#92400E];
+  }
+}
+
+/* Dynamic Font Sizing Control Classes */
+.font-mode-large {
+  font-size: 20px;
+}
+
+.font-mode-extra-large {
+  font-size: 24px;
+}
