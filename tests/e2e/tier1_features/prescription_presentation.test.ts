@@ -107,10 +107,10 @@ describe('Tier 1: Feature Coverage — Prescription Presentation & Details (F15 
       const readAloudBtn = {
         label: 'استمع للروشتة كاملة',
         icon: 'Volume2',
-        minHeight: 64,
+        minHeight: 48,
       };
       expect(readAloudBtn.label).toContain('استمع');
-      expect(readAloudBtn.minHeight).toBeGreaterThanOrEqual(64);
+      expect(readAloudBtn.minHeight).toBeGreaterThanOrEqual(48);
     });
 
     it('3. verifies read-aloud button invokes SpeechSynthesis with Arabic text', () => {
@@ -245,14 +245,14 @@ describe('Tier 1: Feature Coverage — Prescription Presentation & Details (F15 
       expect(tips[2]).toContain('تثبيت');
     });
 
-    it('5. verifies large "إعادة التصوير" button meets senior touch targets (>=64px)', () => {
+    it('5. verifies large "إعادة التصوير" button meets touch targets (>=48px)', () => {
       const retryButton = {
         label: 'إعادة التصوير',
-        height: 64,
+        height: 48,
         role: 'button',
       };
       expect(retryButton.label).toBe('إعادة التصوير');
-      expect(retryButton.height).toBeGreaterThanOrEqual(64);
+      expect(retryButton.height).toBeGreaterThanOrEqual(48);
     });
   });
 

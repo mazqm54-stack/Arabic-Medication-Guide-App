@@ -2,8 +2,8 @@ import 'vitest';
 
 interface CustomElderlyMatchers<R = unknown> {
   /**
-   * Checks that an element satisfies the minimum 64px touch target height.
-   * @param minSize Expected minimum pixel height (defaults to 64px).
+   * Checks that an element satisfies the minimum touch target height (48px base / 56px large).
+   * @param minSize Expected minimum pixel height (defaults to 48px).
    */
   toHaveMinTouchTarget(minSize?: number): R;
 

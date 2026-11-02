@@ -62,15 +62,15 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
       <section
         tabIndex={0}
         aria-label="اسم الدواء والمادة الفعالة"
-        className="card-senior bg-white border-3 border-teal-600 shadow-md"
+        className="card-senior bg-white dark:bg-[#162124] border-3 border-teal-600 dark:border-[#3DB8C4] shadow-md"
       >
-        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-teal-100">
-          <div className="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center flex-shrink-0">
-            <Pill className={`${iconSizeClass} text-teal-700`} aria-hidden="true" />
+        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-teal-100 dark:border-[#1D2B2F]">
+          <div className="w-12 h-12 rounded-xl bg-teal-100 dark:bg-[#1D2B2F] flex items-center justify-center flex-shrink-0">
+            <Pill className={`${iconSizeClass} text-teal-700 dark:text-[#3DB8C4]`} aria-hidden="true" />
           </div>
           <div>
-            <span className="text-teal-700 font-bold text-sm block">البطاقة الأولى</span>
-            <h2 className={`${headingClass} text-teal-900`}>
+            <span className="text-teal-700 dark:text-[#3DB8C4] font-bold text-sm block">البطاقة الأولى</span>
+            <h2 className={`${headingClass} text-teal-900 dark:text-[#E6EEF0]`}>
               اسم الدواء والمادة الفعالة
             </h2>
           </div>
@@ -79,17 +79,17 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
         <div className="space-y-3 pr-2">
           {result.medicine_name_ar && (
             <div>
-              <span className="text-slate-600 text-sm font-semibold block mb-0.5">الاسم بالعربية:</span>
-              <p className={`${isExtraLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-teal-800`}>
+              <span className="text-slate-600 dark:text-[#9FB3B8] text-sm font-semibold block mb-0.5">الاسم بالعربية:</span>
+              <p className={`${isExtraLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-teal-800 dark:text-[#3DB8C4]`}>
                 {result.medicine_name_ar}
               </p>
             </div>
           )}
 
           {result.medicine_name_en && (
-            <div dir="ltr" className="text-left bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <span className="text-slate-500 text-xs font-semibold block mb-0.5">Trade Name & Strength:</span>
-              <p className="text-xl font-bold text-slate-800 font-mono">
+            <div dir="ltr" className="text-left bg-slate-50 dark:bg-[#1D2B2F] p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+              <span className="text-slate-500 dark:text-[#9FB3B8] text-xs font-semibold block mb-0.5">Trade Name & Strength:</span>
+              <p className="text-xl font-bold text-slate-800 dark:text-[#E6EEF0] font-mono">
                 {result.medicine_name_en}
               </p>
             </div>
@@ -97,8 +97,8 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
 
           {result.active_ingredient && (
             <div className="pt-2">
-              <span className="text-slate-600 text-sm font-semibold block mb-0.5">المادة الفعالة:</span>
-              <p className={`${bodyClass} font-bold text-slate-800 bg-teal-50/70 p-3 rounded-xl border border-teal-200`}>
+              <span className="text-slate-600 dark:text-[#9FB3B8] text-sm font-semibold block mb-0.5">المادة الفعالة:</span>
+              <p className={`${bodyClass} font-bold text-slate-800 dark:text-[#E6EEF0] bg-teal-50/70 dark:bg-[#1D2B2F] p-3 rounded-xl border border-teal-200 dark:border-teal-800/60`}>
                 🧪 {result.active_ingredient}
               </p>
             </div>
@@ -110,15 +110,15 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
       <section
         tabIndex={0}
         aria-label="دواعي الاستعمال"
-        className="card-senior bg-white border-3 border-blue-600 shadow-md"
+        className="card-senior bg-white dark:bg-[#162124] border-3 border-blue-600 dark:border-blue-400 shadow-md"
       >
-        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-blue-100">
+        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-blue-100 dark:border-[#1D2B2F]">
           <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
             <FileText className={`${iconSizeClass} text-blue-700`} aria-hidden="true" />
           </div>
           <div>
-            <span className="text-blue-700 font-bold text-sm block">البطاقة الثانية</span>
-            <h2 className={`${headingClass} text-blue-900`}>
+            <span className="text-blue-700 dark:text-blue-400 font-bold text-sm block">البطاقة الثانية</span>
+            <h2 className={`${headingClass} text-blue-900 dark:text-[#E6EEF0]`}>
               دواعي الاستعمال (لماذا يُستخدم؟)
             </h2>
           </div>
@@ -128,13 +128,13 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
           <ul className="space-y-3 pr-2">
             {result.uses.map((use, index) => (
               <li key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-7 h-7 text-blue-600 flex-shrink-0 mt-1" aria-hidden="true" />
-                <span className={`${bodyClass} font-semibold text-slate-800`}>{use}</span>
+                <CheckCircle2 className="w-7 h-7 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" aria-hidden="true" />
+                <span className={`${bodyClass} font-semibold text-slate-800 dark:text-[#E6EEF0]`}>{use}</span>
               </li>
             ))}
           </ul>
         ) : (
-          <p className={`${bodyClass} text-slate-700 pr-2`}>
+          <p className={`${bodyClass} text-slate-700 dark:text-[#9FB3B8] pr-2`}>
             يرجى مراجعة النشرة الداخلية أو استشارة الطبيب لمعرفة كافة دواعي الاستعمال.
           </p>
         )}
@@ -144,16 +144,16 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
       <section
         tabIndex={0}
         aria-label="طريقة الاستخدام وأفضل المواعيد"
-        className="card-senior bg-white border-3 border-emerald-600 shadow-md"
+        className="card-senior bg-white dark:bg-[#162124] border-3 border-emerald-600 dark:border-emerald-400 shadow-md"
       >
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b-2 border-emerald-100">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b-2 border-emerald-100 dark:border-[#1D2B2F]">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
-              <Clock className={`${iconSizeClass} text-emerald-700`} aria-hidden="true" />
+            <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-[#1D2B2F] flex items-center justify-center flex-shrink-0">
+              <Clock className={`${iconSizeClass} text-emerald-700 dark:text-emerald-400`} aria-hidden="true" />
             </div>
             <div>
-              <span className="text-emerald-700 font-bold text-sm block">البطاقة الثالثة</span>
-              <h2 className={`${headingClass} text-emerald-900`}>
+              <span className="text-emerald-700 dark:text-emerald-400 font-bold text-sm block">البطاقة الثالثة</span>
+              <h2 className={`${headingClass} text-emerald-900 dark:text-[#E6EEF0]`}>
                 طريقة الاستخدام وأفضل المواعيد
               </h2>
             </div>
@@ -176,11 +176,11 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
         {/* F21: Safe guaranteed non-empty instructions */}
         <ul className="space-y-3 pr-2 mb-4">
           {safeHowAndWhen.map((instruction, index) => (
-            <li key={index} className="flex items-start gap-3 bg-emerald-50/60 p-3.5 rounded-xl border border-emerald-200">
-              <span className="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-base">
+            <li key={index} className="flex items-start gap-3 bg-emerald-50/60 dark:bg-[#1D2B2F] p-3.5 rounded-xl border border-emerald-200 dark:border-emerald-800/60">
+              <span className="w-8 h-8 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white dark:text-[#0E1517] font-bold flex items-center justify-center flex-shrink-0 text-base">
                 {index + 1}
               </span>
-              <span className={`${bodyClass} font-bold text-emerald-950`}>{instruction}</span>
+              <span className={`${bodyClass} font-bold text-emerald-950 dark:text-[#E6EEF0]`}>{instruction}</span>
             </li>
           ))}
         </ul>
@@ -188,12 +188,12 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
         {/* F23: Hardcoded Arabic Disclaimer Line immediately below Card 3 */}
         <div
           data-testid="usage-disclaimer-container"
-          className="mt-4 pt-3 border-t border-emerald-100 text-right"
+          className="mt-4 pt-3 border-t border-emerald-100 dark:border-[#1D2B2F] text-right"
           dir="rtl"
         >
           <p
             data-testid="usage-disclaimer-line"
-            className={`text-slate-600 ${isExtraLarge ? 'text-lg' : 'text-base'} leading-relaxed font-medium`}
+            className={`text-slate-600 dark:text-[#9FB3B8] ${isExtraLarge ? 'text-lg' : 'text-base'} leading-relaxed font-medium`}
           >
             {HARDCODED_DISCLAIMER_LINE}
           </p>
@@ -204,15 +204,15 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
       <section
         tabIndex={0}
         aria-label="تنبيهات هامة واحتياطات"
-        className="card-senior bg-[#FEF3C7] border-3 border-amber-500 shadow-md text-[#92400E]"
+        className="card-senior bg-[#FEF3C7] dark:bg-[#3A2E12] border-3 border-amber-500 dark:border-amber-600 shadow-md text-[#92400E] dark:text-[#F5D58A]"
       >
-        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-amber-300">
-          <div className="w-12 h-12 rounded-xl bg-amber-200 flex items-center justify-center flex-shrink-0">
-            <AlertTriangle className={`${iconSizeClass} text-amber-800`} aria-hidden="true" />
+        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-amber-300 dark:border-amber-700/60">
+          <div className="w-12 h-12 rounded-xl bg-amber-200 dark:bg-amber-950/80 flex items-center justify-center flex-shrink-0">
+            <AlertTriangle className={`${iconSizeClass} text-amber-800 dark:text-[#F5D58A]`} aria-hidden="true" />
           </div>
           <div>
-            <span className="text-amber-800 font-bold text-sm block">البطاقة الرابعة</span>
-            <h2 className={`${headingClass} text-amber-950`}>
+            <span className="text-amber-800 dark:text-[#F5D58A]/80 font-bold text-sm block">البطاقة الرابعة</span>
+            <h2 className={`${headingClass} text-amber-950 dark:text-[#F5D58A]`}>
               تنبيهات واحتياطات هامة
             </h2>
           </div>
@@ -222,13 +222,13 @@ export const ResultCards: React.FC<ResultCardsProps> = ({ result, fontSize, cont
           <ul className="space-y-3 pr-2">
             {result.warnings.map((warning, index) => (
               <li key={index} className="flex items-start gap-3">
-                <span className="w-3 h-3 rounded-full bg-amber-700 flex-shrink-0 mt-3" aria-hidden="true" />
-                <span className={`${bodyClass} font-bold text-amber-950`}>{warning}</span>
+                <span className="w-3 h-3 rounded-full bg-amber-700 dark:bg-[#F5D58A] flex-shrink-0 mt-3" aria-hidden="true" />
+                <span className={`${bodyClass} font-bold text-amber-950 dark:text-[#F5D58A]`}>{warning}</span>
               </li>
             ))}
           </ul>
         ) : (
-          <p className={`${bodyClass} font-semibold text-amber-900 pr-2`}>
+          <p className={`${bodyClass} font-semibold text-amber-900 dark:text-[#F5D58A] pr-2`}>
             لا توجد تحذيرات استثنائية مسجلة على واجهة العلبة، يُرجى قراءة النشرة الداخلية دائماً.
           </p>
         )}

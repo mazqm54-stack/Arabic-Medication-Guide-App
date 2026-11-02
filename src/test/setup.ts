@@ -207,10 +207,10 @@ if (!('serviceWorker' in navigator)) {
 // -------------------------------------------------------------
 expect.extend({
   /**
-   * Asserts that an interactive element satisfies the senior 64px minimum touch target height.
+   * Asserts that an interactive element satisfies the minimum touch target height (48px base / 56px large).
    * Checks computed styles, inline styles, bounding rects, and Tailwind classes.
    */
-  toHaveMinTouchTarget(received: HTMLElement, minSize = 64) {
+  toHaveMinTouchTarget(received: HTMLElement, minSize = 48) {
     if (!received || !(received instanceof HTMLElement)) {
       return {
         pass: false,
@@ -233,13 +233,24 @@ expect.extend({
       rectHeight
     );
 
-    // Also check for Tailwind min-h and height classes
+    // Also check for Tailwind min-h, min-w, and height classes
     const classList = received.className || '';
     const hasTailwindTouchClass =
+      classList.includes('min-h-[48px]') ||
+      classList.includes('min-h-[56px]') ||
       classList.includes('min-h-[64px]') ||
+      classList.includes('min-w-[48px]') ||
+      classList.includes('min-w-[56px]') ||
+      classList.includes('min-w-[64px]') ||
       classList.includes('min-h-touch') ||
+      classList.includes('h-12') ||
+      classList.includes('h-14') ||
       classList.includes('h-16') ||
+      classList.includes('h-[48px]') ||
+      classList.includes('h-[56px]') ||
       classList.includes('h-[64px]') ||
+      classList.includes('min-h-12') ||
+      classList.includes('min-h-14') ||
       classList.includes('min-h-16') ||
       classList.includes('btn-touch') ||
       classList.includes('btn-primary') ||

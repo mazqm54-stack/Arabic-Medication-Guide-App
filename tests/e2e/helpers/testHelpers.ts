@@ -2,7 +2,7 @@
  * Test Utilities and DOM Assertions for E2E Suite
  */
 
-export function assertTouchTargetSenior(el: HTMLElement, minPx = 64): void {
+export function assertTouchTargetSenior(el: HTMLElement, minPx = 48): void {
   const style = window.getComputedStyle(el);
   const height = parseFloat(style.height) || parseFloat(el.style.height) || 0;
   const minHeight = parseFloat(style.minHeight) || parseFloat(el.style.minHeight) || 0;
@@ -10,11 +10,20 @@ export function assertTouchTargetSenior(el: HTMLElement, minPx = 64): void {
   
   const classList = el.className || '';
   const hasTailwindClass =
+    classList.includes('min-h-[48px]') ||
+    classList.includes('min-h-[56px]') ||
     classList.includes('min-h-[64px]') ||
+    classList.includes('min-w-[48px]') ||
+    classList.includes('min-w-[56px]') ||
+    classList.includes('min-w-[64px]') ||
     classList.includes('min-h-[72px]') ||
     classList.includes('min-h-[80px]') ||
+    classList.includes('h-12') ||
+    classList.includes('h-14') ||
     classList.includes('h-16') ||
     classList.includes('h-20') ||
+    classList.includes('min-h-12') ||
+    classList.includes('min-h-14') ||
     classList.includes('min-h-16') ||
     classList.includes('btn-touch') ||
     classList.includes('btn-primary') ||

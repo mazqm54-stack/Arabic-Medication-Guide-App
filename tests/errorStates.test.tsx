@@ -137,7 +137,7 @@ describe('Error States & Interactive Retry Verification (errorStates.test.tsx)',
   });
 
   describe('2. Senior Accessibility & Ergonomics', () => {
-    it('satisfies minimum 64px touch target height on all error state action buttons', () => {
+    it('satisfies minimum touch target height (>= 48px) on all error state action buttons', () => {
       render(
         <UnclearPhotoCard
           errorCategory="network_timeout"
@@ -150,7 +150,7 @@ describe('Error States & Interactive Retry Verification (errorStates.test.tsx)',
       expect(buttons.length).toBeGreaterThanOrEqual(1);
 
       for (const button of buttons) {
-        expect(button).toHaveMinTouchTarget(64);
+        expect(button).toHaveMinTouchTarget(48);
       }
     });
 

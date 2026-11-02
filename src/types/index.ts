@@ -56,7 +56,9 @@ export interface MedicationHistoryItem extends MedicineAnalysisResult {
   timestamp: number;
 }
 
-export type FontSizePreference = 'large' | 'extra-large'; // 'large' = 20px, 'extra-large' = 24px+
+export type FontSizePreference = 'normal' | 'large' | 'extra-large'; // 'normal' = 16px, 'large' = 19px, 'extra-large' = 23px
+
+export type ThemePreference = 'system' | 'light' | 'dark';
 
 export type AudioState = 'idle' | 'speaking' | 'paused';
 

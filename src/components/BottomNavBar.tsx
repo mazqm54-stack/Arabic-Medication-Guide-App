@@ -56,7 +56,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
       dir="rtl"
       role="navigation"
       aria-label="شريط التنقل السفلي"
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-slate-200 shadow-lg pb-safe"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#162124] border-t-2 border-slate-200 dark:border-[#1D2B2F] shadow-lg pb-safe"
     >
       <div className="max-w-md mx-auto px-2 flex items-center justify-between min-h-[72px]">
         {/* Tab 1: الرئيسية (Home) */}
@@ -68,8 +68,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
           onClick={() => handleTabClick('home')}
           className={`min-h-[64px] min-w-[64px] flex-1 flex flex-col items-center justify-center py-1 transition-all ${
             activeTab === 'home'
-              ? 'bg-[#006D77]/15 text-[#006D77] rounded-full px-4 py-1'
-              : 'text-slate-600 hover:text-teal-700'
+              ? 'bg-[#006D77]/15 dark:bg-[#3DB8C4]/20 text-[#006D77] dark:text-[#3DB8C4] rounded-full px-4 py-1'
+              : 'text-slate-600 dark:text-[#9FB3B8] hover:text-teal-700 dark:hover:text-[#3DB8C4]'
           }`}
         >
           <Home className="w-7 h-7" aria-hidden="true" />
@@ -85,8 +85,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
           onClick={() => handleTabClick('medicines')}
           className={`min-h-[64px] min-w-[64px] flex-1 flex flex-col items-center justify-center py-1 transition-all ${
             activeTab === 'medicines'
-              ? 'bg-[#006D77]/15 text-[#006D77] rounded-full px-4 py-1'
-              : 'text-slate-600 hover:text-teal-700'
+              ? 'bg-[#006D77]/15 dark:bg-[#3DB8C4]/20 text-[#006D77] dark:text-[#3DB8C4] rounded-full px-4 py-1'
+              : 'text-slate-600 dark:text-[#9FB3B8] hover:text-teal-700 dark:hover:text-[#3DB8C4]'
           }`}
         >
           <Pill className="w-7 h-7" aria-hidden="true" />
@@ -100,7 +100,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
             disabled={disabled || isCapturing}
             onClick={handleCenterCameraClick}
             aria-label="صوّر"
-            className="w-[76px] h-[76px] rounded-full bg-[#006D77] hover:bg-teal-800 active:scale-[0.96] disabled:opacity-60 text-white flex flex-col items-center justify-center shadow-xl border-4 border-white transition-all z-60"
+            className="w-[76px] h-[76px] rounded-full bg-[#006D77] dark:bg-[#0A8F9C] hover:bg-teal-800 dark:hover:bg-[#006D77] active:scale-[0.96] disabled:opacity-60 text-white flex flex-col items-center justify-center shadow-xl border-4 border-white dark:border-[#162124] transition-all z-60"
           >
             <Camera className="w-8 h-8 text-white" aria-hidden="true" />
             <span className="text-xs font-black text-white mt-0.5">صوّر</span>
@@ -116,8 +116,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
           onClick={() => handleTabClick('prescription')}
           className={`min-h-[64px] min-w-[64px] flex-1 flex flex-col items-center justify-center py-1 transition-all ${
             activeTab === 'prescription'
-              ? 'bg-[#006D77]/15 text-[#006D77] rounded-full px-4 py-1'
-              : 'text-slate-600 hover:text-teal-700'
+              ? 'bg-[#006D77]/15 dark:bg-[#3DB8C4]/20 text-[#006D77] dark:text-[#3DB8C4] rounded-full px-4 py-1'
+              : 'text-slate-600 dark:text-[#9FB3B8] hover:text-teal-700 dark:hover:text-[#3DB8C4]'
           }`}
         >
           <FileText className="w-7 h-7" aria-hidden="true" />
@@ -133,8 +133,8 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
           onClick={() => handleTabClick('history')}
           className={`min-h-[64px] min-w-[64px] flex-1 flex flex-col items-center justify-center py-1 transition-all ${
             activeTab === 'history'
-              ? 'bg-[#006D77]/15 text-[#006D77] rounded-full px-4 py-1'
-              : 'text-slate-600 hover:text-teal-700'
+              ? 'bg-[#006D77]/15 dark:bg-[#3DB8C4]/20 text-[#006D77] dark:text-[#3DB8C4] rounded-full px-4 py-1'
+              : 'text-slate-600 dark:text-[#9FB3B8] hover:text-teal-700 dark:hover:text-[#3DB8C4]'
           }`}
         >
           <History className="w-7 h-7" aria-hidden="true" />

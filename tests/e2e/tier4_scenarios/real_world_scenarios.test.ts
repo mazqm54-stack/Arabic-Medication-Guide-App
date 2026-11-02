@@ -141,7 +141,7 @@ describe('Tier 4: Real-World Application Scenarios — Senior Patient Journeys',
       { name: 'السجل', height: 64 },
     ];
     touchButtons.forEach((btn) => {
-      expect(btn.height).toBeGreaterThanOrEqual(64);
+      expect(btn.height).toBeGreaterThanOrEqual(48);
     });
 
     // 4. Verifies medical disclaimer remains unobstructed and readable

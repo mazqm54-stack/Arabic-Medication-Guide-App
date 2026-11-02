@@ -1,34 +1,35 @@
-# BRIEFING — 2026-10-28T20:28:00Z
+# BRIEFING — 2026-11-02T01:08:00Z
 
 ## Mission
-Orchestrate the comprehensive upgrade of "دليلي الدوائي" (My Medication Guide) into a high-speed, modern, native Android application (APK) optimized for elderly users with zero-secret Vercel serverless backend, Capacitor plugins, local Cairo fonts, image hash caching & compression, medicine confirmation step, and local "أدويتي" manager.
+Oversee and monitor project execution for visual and UX redesign of "دليلي الدوائي".
 
 ## 🔒 My Identity
 - Archetype: sentinel
 - Working directory: c:\Users\PC\Documents\antigravity\fervent-mendel\.agents\teamwork\sentinel
-- Orchestrator: f4f724ac-fd8c-4c16-a91a-05f2f4a5cab4
+- Orchestrator: 47a081ca-fb5a-441e-9b11-4e9961928480
 - Victory Auditor: to be spawned on victory claim
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
 - Victory Audit is MANDATORY before reporting completion
-- Keep context ultra-light
-- Strictly manage orchestrator lifecycle and crons
-
-## User Context
-- **Last user request**: Upgrade "دليلي الدوائي" with zero-secret serverless backend (/api/analyze), native Capacitor Android plugins, local Cairo fonts, client image compression and hash cache, medicine confirmation step, and "أدويتي" local manager.
-- **Pending clarifications**: none
-- **Delivered results**: none
-
-## Project Status
-- **Phase**: in progress
-- **Active Orchestrator**: f4f724ac-fd8c-4c16-a91a-05f2f4a5cab4 (teamwork_preview_orchestrator_2)
-- **Cron 1 (Reporting)**: f86073d5-53ce-4b0f-94fc-ea43bd34e4ad/task-35 (*/8 * * * *)
-- **Cron 2 (Liveness)**: f86073d5-53ce-4b0f-94fc-ea43bd34e4ad/task-37 (*/10 * * * *)
+- Fast-track mode: one reviewer per milestone, one final secret scan at the end, do not add large numbers of extra tests
+- Send one short status message when each milestone ends, and clearly state when it is safe to run sign-release.bat
+- Do NOT touch Worker, API logic, or camera/gallery logic. Keep @capacitor/camera@6.1.2 and AndroidManifest <queries>
+- Everything stays Arabic, strict RTL. Fonts bundled locally. Medical disclaimers visible. No secrets in client.
+- Use npx.cmd / npm.cmd
+- Do not rebuild from scratch; update existing files
 
 ## Routing Decision
-- **Path**: General (teamwork_preview_orchestrator)
-- **Rationale**: Full multi-layer engineering overhaul covering serverless backend, native mobile runtime (Capacitor/Android), performance caching, accessible UI flows, and end-to-end verification.
+- **Path**: General (`teamwork_orchestrator`)
+- **Rationale**: Multi-requirement visual and UX redesign across multiple milestones; does not match document review, math/proof, or single self-contained light change.
+
+## User Context
+- **Last user request**: Approved task prompt received and routed to teamwork_orchestrator.
+- **Pending clarifications**: none
+- **Delivered results**: Progress updates 1-29 and Milestone 1 Completion Notice sent to caller.
+
+## Project Status
+- **Phase**: in progress (Milestone 2: Dark mode tokens, themeStorage.ts, Android styles, tests/theming.m2.test.ts completed; verification running)
 
 ## Victory Audit Status
 - **Triggered**: no
@@ -36,6 +37,10 @@ Orchestrate the comprehensive upgrade of "دليلي الدوائي" (My Medicat
 - **Retry count**: 0
 
 ## Artifact Index
-- c:\Users\PC\Documents\antigravity\fervent-mendel\.agents\teamwork\ORIGINAL_REQUEST.md — Authoritative user request
-- c:\Users\PC\Documents\antigravity\fervent-mendel\ORIGINAL_REQUEST.md — Root copy of user request
-- c:\Users\PC\Documents\antigravity\fervent-mendel\.agents\teamwork\teamwork_preview_orchestrator_2\progress.md — Active orchestrator progress log
+- c:\Users\PC\Documents\antigravity\fervent-mendel\.agents\teamwork\ORIGINAL_REQUEST.md — Authoritative user task prompt
+- c:\Users\PC\Documents\antigravity\fervent-mendel\PROJECT.md — Global project specification & Feature Inventory (F29-F50)
+- c:\Users\PC\Documents\antigravity\fervent-mendel\src\assets\fonts\ — Bundled Readex Pro font assets
+- c:\Users\PC\Documents\antigravity\fervent-mendel\src\components\SettingsModal.tsx — Theme & font settings modal
+- c:\Users\PC\Documents\antigravity\fervent-mendel\android\app\src\main\res\values-night\styles.xml — Dark mode system bar styles
+- c:\Users\PC\Documents\antigravity\fervent-mendel\src\services\themeStorage.ts — Theme storage & system listener
+- c:\Users\PC\Documents\antigravity\fervent-mendel\tests\theming.m2.test.ts — Dark mode & system bar sync test suite

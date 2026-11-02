@@ -69,11 +69,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   return (
     <div dir="rtl" className="w-full text-right space-y-6">
       {/* Friendly Senior Greeting */}
-      <div className="bg-teal-50 border-2 border-teal-500 rounded-3xl p-6 shadow-xs">
-        <h2 className="text-senior-xl font-bold text-teal-900 mb-2">
+      <div className="bg-teal-50 dark:bg-[#162124] border-2 border-teal-500 dark:border-[#3DB8C4] rounded-3xl p-6 shadow-xs">
+        <h2 className="text-senior-xl font-bold text-teal-900 dark:text-[#E6EEF0] mb-2">
           أهلاً بكم في دليلي الدوائي
         </h2>
-        <p className="text-senior-base text-slate-800 leading-relaxed font-medium">
+        <p className="text-senior-base text-slate-800 dark:text-[#9FB3B8] leading-relaxed font-medium">
           مساعدك الطبي الذكي لقراءة علب الأدوية والروشتات بالصوت والكتابة الواضحة. اختر ما تريد تصويره للبدء فوراً.
         </p>
       </div>
@@ -83,16 +83,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <div
           role="alert"
           aria-live="polite"
-          className="bg-amber-50 border-2 border-amber-300 text-amber-900 rounded-2xl p-4 text-senior-base font-bold flex items-start justify-between gap-3 shadow-xs"
+          className="bg-amber-50 dark:bg-[#3A2E12] border-2 border-amber-300 dark:border-amber-600 text-amber-900 dark:text-[#F5D58A] rounded-2xl p-4 text-senior-base font-bold flex items-start justify-between gap-3 shadow-xs"
         >
           <div className="flex items-start gap-2">
-            <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+            <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-[#F5D58A] flex-shrink-0 mt-0.5" aria-hidden="true" />
             <span>{errorMessage}</span>
           </div>
           <button
             type="button"
             onClick={() => setErrorMessage(null)}
-            className="text-amber-800 hover:text-amber-950 font-extrabold px-2 py-1 rounded-lg"
+            className="text-amber-800 dark:text-[#F5D58A] hover:text-amber-950 font-extrabold px-2 py-1 rounded-lg"
             aria-label="إغلاق التنبيه"
           >
             ✕
@@ -108,17 +108,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           disabled={disabled || isCapturing}
           onClick={handleBoxCapture}
           aria-label="صوّر علبة الدواء الآن"
-          className="w-full min-h-[120px] bg-white hover:bg-teal-50/60 active:scale-[0.98] disabled:opacity-60 border-2 border-teal-600 rounded-3xl p-6 flex items-center justify-between text-right shadow-sm hover:shadow-md transition-all group"
+          className="w-full min-h-[120px] bg-white dark:bg-[#162124] hover:bg-teal-50/60 dark:hover:bg-[#1D2B2F] active:scale-[0.98] disabled:opacity-60 border-2 border-teal-600 dark:border-[#3DB8C4] rounded-3xl p-6 flex items-center justify-between text-right shadow-sm hover:shadow-md transition-all group"
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-teal-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-16 h-16 rounded-2xl bg-teal-600 dark:bg-[#3DB8C4] text-white dark:text-[#0E1517] flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform">
               <Camera className="w-9 h-9" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="text-senior-xl font-extrabold text-teal-900">
+              <h3 className="text-senior-xl font-extrabold text-teal-900 dark:text-[#E6EEF0]">
                 صوّر علبة الدواء الآن
               </h3>
-              <p className="text-senior-base text-slate-700 font-medium mt-1">
+              <p className="text-senior-base text-slate-700 dark:text-[#9FB3B8] font-medium mt-1">
                 التقط صورة لعلبة الدواء لمعرفة دواعي الاستعمال والتحذيرات
               </p>
             </div>
@@ -131,17 +131,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           disabled={disabled || isCapturing}
           onClick={onNavigateToPrescription}
           aria-label="صوّر روشتة"
-          className="w-full min-h-[120px] bg-white hover:bg-blue-50/60 active:scale-[0.98] disabled:opacity-60 border-2 border-blue-600 rounded-3xl p-6 flex items-center justify-between text-right shadow-sm hover:shadow-md transition-all group"
+          className="w-full min-h-[120px] bg-white dark:bg-[#162124] hover:bg-blue-50/60 dark:hover:bg-[#1D2B2F] active:scale-[0.98] disabled:opacity-60 border-2 border-blue-600 dark:border-blue-400 rounded-3xl p-6 flex items-center justify-between text-right shadow-sm hover:shadow-md transition-all group"
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-16 h-16 rounded-2xl bg-blue-600 dark:bg-blue-500 text-white dark:text-[#0E1517] flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform">
               <FileText className="w-9 h-9" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="text-senior-xl font-extrabold text-blue-900">
+              <h3 className="text-senior-xl font-extrabold text-blue-900 dark:text-[#E6EEF0]">
                 صوّر روشتة
               </h3>
-              <p className="text-senior-base text-slate-700 font-medium mt-1">
+              <p className="text-senior-base text-slate-700 dark:text-[#9FB3B8] font-medium mt-1">
                 قراءة الأدوية المكتوبة في الروشتة وتوضيح ما كتبه الطبيب
               </p>
             </div>
@@ -154,10 +154,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         type="button"
         disabled={disabled || isCapturing}
         onClick={handleGalleryPick}
-        className="w-full min-h-[64px] bg-white hover:bg-slate-50 active:scale-[0.98] disabled:opacity-60 text-slate-800 border-2 border-slate-300 rounded-2xl p-4 flex items-center justify-center gap-3 text-senior-base font-bold shadow-xs transition-all"
+        className="w-full min-h-[64px] bg-white dark:bg-[#162124] hover:bg-slate-50 dark:hover:bg-[#1D2B2F] active:scale-[0.98] disabled:opacity-60 text-slate-800 dark:text-[#E6EEF0] border-2 border-slate-300 dark:border-[#1D2B2F] rounded-2xl p-4 flex items-center justify-center gap-3 text-senior-base font-bold shadow-xs transition-all"
         aria-label="اختيار صورة علبة دواء من الألبوم"
       >
-        <Image className="w-6 h-6 text-slate-600" aria-hidden="true" />
+        <Image className="w-6 h-6 text-slate-600 dark:text-[#9FB3B8]" aria-hidden="true" />
         <span>📁 أو اختر صورة من الألبوم</span>
       </button>
 
@@ -169,8 +169,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           onClearHistory={onClearHistory}
         />
       ) : (
-        <div className="bg-white border-2 border-slate-200 rounded-3xl p-6 text-center text-slate-600">
-          <Clock className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+        <div className="bg-white dark:bg-[#162124] border-2 border-slate-200 dark:border-[#1D2B2F] rounded-3xl p-6 text-center text-slate-600 dark:text-[#9FB3B8]">
+          <Clock className="w-8 h-8 text-slate-400 dark:text-[#9FB3B8] mx-auto mb-2" />
           <p className="text-senior-base font-medium">
             لا توجد أدوية مسجلة بعد. يمكنك تصوير علبة دواء للبدء.
           </p>

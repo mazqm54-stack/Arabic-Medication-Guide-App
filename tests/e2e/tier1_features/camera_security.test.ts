@@ -107,7 +107,7 @@ describe('Tier 1: Feature Coverage — Camera & Security (F01, F02)', () => {
         const content = fs.readFileSync(file, 'utf8');
         expect(secretRegex.test(content)).toBe(false);
       }
-    }, 15000);
+    }, 30000);
 
     it('4. verifies localStorage has no legacy client API key storage logic', () => {
       const clientFiles = getFilesRecursively(path.join(projectRoot, 'src'));

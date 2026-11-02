@@ -1,136 +1,63 @@
-# Project: دليلي الدوائي (Dalili Medication Guide) — Production Upgrade
+# Project: دليلي الدوائي (Dalili Medication Guide) — Production Redesign
 
 ## Architecture
 - **Client Frontend**: React 18, TypeScript, Tailwind CSS, Lucide Icons, Vite, Vitest.
-- **Mobile Native Runtime**: Capacitor 6.1.2 (`@capacitor/camera@6.1.2`, `@capacitor/android`, `@capacitor/cli`), Android Gradle build with custom intent queries and release signing script.
+- **Mobile Native Runtime**: Capacitor 6.1.2 (`@capacitor/camera@6.1.2`, `@capacitor/android`, `@capacitor/cli`), Android Gradle build with custom intent queries, adaptive launcher icons, dark mode system bar styles, and release signing script.
 - **Backend Edge Computing**: Cloudflare Worker running on edge runtime, integrated with Google Gemini API (`generateContent` with `thinkingConfig: { thinkingLevel: 'LOW' }`).
-- **Data Flow**:
-  1. *Medicine Box Capture*: Native Camera (Rear, Base64) → 1024px/0.7 JPEG compression → Worker (`/api/analyze` or `mode: "box"`) → Gemini 3.5 Flash Lite → 4-Card Structured Analysis Result.
-  2. *Prescription Capture*: Native Camera / Gallery → 1600px/0.8 JPEG compression → Worker (`/api/prescription` or `mode: "prescription"`) → Gemini 3.8 Flash → Multi-Item Prescription Schema → Retake screen (if empty) or Multi-Card Prescription View with Low-Confidence Badging.
-  3. *Medicine Details*: Tapping Prescription Card / Search → Worker (`/api/details` or `mode: "details"`, text only) → 4-Card Box Schema → Client LocalStorage Cache.
+- **Typography & Theming**: Locally bundled Readex Pro WOFF2 fonts (zero network calls), 3 dynamic font size levels ('normal' 16px, 'large' 19px, 'extra-large' 23px) via root `rem` scaling, token-based dark mode palette meeting WCAG AAA contrast, zero startup flash.
 
 ## Feature Inventory
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| F01 | Camera Crash Fix Preservation | Maintain `@capacitor/camera@6.1.2` and AndroidManifest `<queries>` for `IMAGE_CAPTURE`, `GET_CONTENT`, `PICK` | M1 / M3 | R1, survey |
-| F02 | Secret Zero-Leak Guarantee | Zero API keys or secrets in client code or git repository | M1 / M5 | R1, R5 |
-| F03 | Fixed Bottom Navigation Bar | Fixed bar in strict RTL order: الرئيسية, أدويتي, [CENTER CAMERA BUTTON], الروشتة, السجل | M3 | R1 |
-| F04 | Center Raised Camera Button | 72–80px raised circular teal button (#006D77), white camera icon, label "صوّر", calling native rear camera immediately | M3 | R1 |
-| F05 | Native Tab Ergonomics | Touch targets >= 64px, icons >= 28px, labels >= 16px, rounded pill active indicator, light haptic feedback | M3 | R1 |
-| F06 | Native Mobile Feel Styling | `user-select: none`, `-webkit-tap-highlight-color: transparent`, `overscroll-behavior: none`, transitions < 250ms, teal status bar, body text >= 20px, high contrast, safe-area insets | M3 | R1 |
-| F07 | Home Screen Redesign | Short friendly greeting, 2 big cards ("صوّر علبة دواء", "صوّر روشتة"), uncluttered recent scans | M3 | R1 |
-| F08 | Medical Disclaimer Persistence | Medical disclaimer banner visible on all scan result and prescription screens | M3 / M4 | R1 |
-| F09 | Prescription Camera & Gallery Flow | "الروشتة" tab with "صوّر الروشتة" (camera) and gallery picker | M4 | R2 |
-| F10 | Prescription High-Res Compression | Compress prescription photos to max 1600px longest side, JPEG quality 0.8 (while preserving 1024px / 0.7 for box photos) | M2 | R2 |
-| F11 | Cloudflare Worker Prescription Route/Mode | Support `/api/prescription` and `mode: "prescription"` with strict 5-rule system prompt and JSON schema | M1 | R2 |
-| F12 | Model Configuration Environment Variables | Add `GEMINI_MODEL_PRESCRIPTION` (default `gemini-3.8-flash` with thinkingLevel LOW), keep `GEMINI_MODEL` for box mode, no hardcoding | M1 | R2 |
-| F13 | Worker 25s Abort & Client 30s Timeout | Enforce 25s AbortController in Worker returning HTTP 504 `UPSTREAM_TIMEOUT`, client 30s timeout, separate error codes | M1 / M2 | R2 |
-| F14 | Prescription Schema Validation & Empty Items Routing | Validate prescription JSON; if items array is empty, route to retake screen | M2 / M4 | R2 |
-| F15 | Prescription Card Layout | One big card per readable medicine: name (large), one-sentence purpose, "ما كتبه الطبيب" box with `written_instructions`, confidence badge | M4 | R2 |
-| F16 | Low-Confidence Amber Card Presentation | Low-confidence items rendered in soft amber card: "غير واضح، اسأل الصيدلي" with no AI explanation | M4 | R2 |
-| F17 | Advisory Banner & Prescription Read-Aloud | Advisory banner "راجع أسماء الأدوية قبل الاعتماد" and read-aloud button for whole prescription | M4 | R2 |
-| F18 | Medicine Details Mode & Client Caching | Worker mode "details" (text input of medicine name returning box schema), client caching by medicine name, and "أضف لأدويتي" action | M1 / M2 / M4 | R2 |
-| F19 | Unclear Photo Guidance | Friendly Arabic message with 3 short retake tips (lighting, framing, steadiness) and large "إعادة التصوير" button for both flows | M4 | R3 |
-| F20 | Partial Prescription Clarity Preservation | Legible prescription lines rendered with standard cards, unclear lines marked low confidence | M4 | R3 |
-| F21 | Medication Usage Non-Empty Guarantee | `how_and_when` never empty and never generic "follow doctor"; provides 2–3 short items on common active ingredient usage | M1 / M2 / M4 | R4 |
-| F22 | Usage Source Badging | Differentiate `usage_source` ("printed" vs "common"), with labels "مكتوب على العلبة" / "مكتوب في الروشتة" / "الاستخدام الشائع" | M1 / M2 / M4 | R4 |
-| F23 | Hardcoded Arabic Disclaimer Line | Immediate fixed Arabic disclaimer line under usage card: "هذا الاستخدام الشائع، ويختلف من شخص لآخر ومن حالة لأخرى. اتبع تعليمات طبيبك أو الصيدلي." | M4 | R4 |
-| F24 | Worker Box System Instruction Rule 6 Update | Update Rule 6 in worker box prompt to allow general common usage while forbidding exact doses and personal medical advice | M1 | R4 |
-| F25 | Android Versioning Increment | Increment `versionCode` (to 2) and `versionName` (to "1.1") in `android/app/build.gradle` | M5 | R5 |
-| F26 | Release Signing Automation & Version Reminder | Update `sign-release.bat` to remind developer to increment versions on each release for clean APK upgrades | M5 | R5 |
-| F27 | Vitest Test Suite Expansion | Full test coverage for bottom nav, prescription validator, details mode & cache, usage never empty, fixed disclaimer line, and secret scan | M5 / Test Track | R5 |
-| F28 | Live Cloudflare Worker Deployment & Verification | Deploy Worker with `npx.cmd wrangler deploy`, test live endpoints with real sample images, record real status codes and latency | M5 | R5 |
+| F01 | Camera Crash Fix Preservation | Maintain `@capacitor/camera@6.1.2` and AndroidManifest `<queries>` for `IMAGE_CAPTURE`, `GET_CONTENT`, `PICK` | Core | R6 |
+| F02 | Secret Zero-Leak Guarantee | Zero API keys or secrets in client code or git repository | Core / M5 | R6 |
+| F29 | Sticky Button & Scroll Padding Fix | Style "تصوير روشتة أخرى" as compact secondary action; set scroll area padding to `pb-36` (144px) so last item is fully reachable without overlap | M4 | R1 |
+| F30 | Bottom Navigation Collision Fix | 5 equal-width slots (`grid-cols-5`), 24px icons, 12px labels (never > 14px), single line with ellipsis, zero collision at 360px & 320px | M3 | R1 |
+| F31 | Button Emojis Replacement | Replace all button emojis (🔄 📷 🔍 📁 💊 🗑️ etc.) with locally bundled Lucide line-icons with uniform stroke width | M3 | R1 |
+| F32 | Compact Top Bar & Slim Banner | Small logo, app name (~18px), no long subtitle, small "Aa" icon button, slim one-line banner (13-14px) for "راجع أسماء الأدوية قبل الاعتماد" | M3 | R1 |
+| F33 | Modern Visual Styling | Brand teal #006D77, clean neutral backgrounds, white cards with 16px radius (`rounded-2xl`), soft shadows, 8px grid, subtle gradient on primary | M4 | R2 |
+| F34 | Compact Result Cards | Prominent medicine name, confidence chip, small muted "as written" text, expandable chevron for details | M4 | R2 |
+| F35 | Skeleton Loaders & Transitions | Skeleton loaders during analysis, screen transitions under 200ms, light haptics, reduced-motion support | M4 | R2 |
+| F36 | Local Readex Pro Font Bundling | Bundle Readex Pro WOFF2 locally in `src/assets/fonts/`, remove remote Google Fonts links from `index.html`, zero network requests | M1 | R2 |
+| F37 | Redesigned Home Screen | Compact greeting, two clean action cards (علبة دواء / روشتة) with icons, compact recent-scans list without large empty space | M4 | R2 |
+| F38 | Center Camera Button Update | 64px circle, teal gradient #0A8F9C to #006D77, 4px notch ring, soft glow shadow, scan-style line-icon, "صوّر" label, scale 0.95 animation | M3 | R2 |
+| F39 | Three Dynamic Font Size Levels | Support "عادي" (16px default), "كبير" (19px), "كبير جداً" (23px) via Settings, top-bar "Aa" button, and first-launch choice | M1 | R3 |
+| F40 | Root Rem Sizing Scaling | Scale all typography and layouts via root font-size (rem units) so layouts never break on font size changes | M1 | R3 |
+| F41 | Adaptive Touch Targets & Test Updates | Minimum 48px touch target in default mode, 56px in larger modes. Update legacy test assertions (64px/20px) without weakening unrelated tests | M1 | R3 |
+| F42 | Dark Mode Options & Zero Flash | Settings options: "تلقائي" (system default), "فاتح" (light), "داكن" (dark), persisted locally with zero startup flash via synchronous `<head>` script | M2 | R4 |
+| F43 | Token-Based Dark Palette & Contrast | Background #0E1517, surface #162124, surface-2 #1D2B2F, text #E6EEF0, muted #9FB3B8, primary #3DB8C4 (with dark text for AAA), warning #3A2E12/#F5D58A | M2 | R4 |
+| F44 | Android System Bars Synchronization | Synchronize Android status bar and navigation bar with active theme via `values-night/styles.xml` and `<meta name="theme-color">` | M2 | R4 |
+| F45 | Adaptive Launcher Icon Generation | Adaptive launcher icon (teal #006D77 background, white prescription sheet with capsule symbol) across all mipmap densities | M5 | R5 |
+| F46 | Light and Dark Splash Screens | Generate matching splash screens across all Android asset densities via pure Node.js offline script | M5 | R5 |
+| F47 | Consistent Line-Icon Set | Single locally bundled line-icon set (`lucide-react`) used consistently across the entire application | M3 | R5 |
+| F48 | Screenshot Verification Suite | Capture browser screenshots at 360x800 and 320x640 in light and dark modes across all 3 font sizes for 7 screens (zero clipping/overlapping) | M5 | Verification |
+| F49 | Version Bump & Release Reminder | Increment `versionCode 2 -> 3` and `versionName "1.1" -> "1.2"` in `build.gradle`, `sign-release.bat`, and `package.json` | M5 | Process |
+| F50 | Full Test Suite Pass & Final Secret Scan | 100% tests pass, final secret scan passes, clean `cap sync android`, and explicit confirmation that it is safe to run `sign-release.bat` | M5 | Verification |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| M1 | Cloudflare Worker Backend Upgrade | Prescription endpoint/mode, `GEMINI_MODEL_PRESCRIPTION`, 25s abort, details mode, Box Rule 6 update | none | DONE |
-| M2 | Client Data Layer, Types, Compression & Services | Types update (`usage_source`, prescription schema), 1600px/0.8 JPEG compression, 30s timeout, details cache | M1 | DONE |
-| M3 | Native App Shell, RTL Bottom Navigation & Home Screen | Fixed bottom nav bar, 72-80px teal camera button, native mobile styling, uncluttered Home screen | M1, M2 | DONE |
-| M4 | Prescription UI Flow, Unclear Guidance & Usage Card | Prescription tab & cards, low-confidence amber cards, details modal, 3 retake tips, Card 3 usage & disclaimer | M2, M3 | DONE |
-| M5 | Android Versioning, Release Signing, Tests & Live Deploy | `build.gradle` version bump, `sign-release.bat`, Vitest suite pass 100%, `wrangler deploy`, live test report | M1, M2, M3, M4 | DONE |
-| M-Final | Dual Track E2E Test Suite Pass & Adversarial Hardening | Pass 100% of E2E tests (Tiers 1-4) published in `TEST_READY.md`, Tier 5 adversarial coverage hardening | M1–M5, Test Track | PLANNED |
-
-## Interface Contracts
-
-### Client ↔ Worker Backend Contract
-- **POST `/api/analyze` or `/api/prescription`**:
-  - Request Headers: `Content-Type: application/json`
-  - Request Body:
-    ```json
-    {
-      "image": "<base64-jpeg-string>",
-      "mode": "prescription" | "box" | "details",
-      "medicine_name": "<string-for-details-mode-only>"
-    }
-    ```
-  - Response (Prescription Mode):
-    ```json
-    {
-      "is_clear": true | false,
-      "retake_message": "<arabic-string>",
-      "confidence": "high" | "medium" | "low",
-      "evidence_text": "<string>",
-      "items": [
-        {
-          "line_text_as_written": "<string>",
-          "medicine_name_ar": "<string>",
-          "medicine_name_en": "<string>",
-          "active_ingredient": "<string>",
-          "confidence": "high" | "medium" | "low",
-          "written_instructions": "<string>",
-          "short_explanation": "<string>"
-        }
-      ],
-      "audio_summary": "<string>"
-    }
-    ```
-  - Response (Box & Details Mode):
-    ```json
-    {
-      "is_clear": true,
-      "retake_message": "",
-      "confidence": "high",
-      "evidence_text": "",
-      "medicine_name_ar": "<string>",
-      "medicine_name_en": "<string>",
-      "active_ingredient": "<string>",
-      "uses": ["<string>"],
-      "how_and_when": ["<string>"],
-      "usage_source": "printed" | "common",
-      "warnings": ["<string>"],
-      "audio_summary": "<string>"
-    }
-    ```
-  - Timeout & Error Response:
-    ```json
-    {
-      "is_clear": false,
-      "error": "UPSTREAM_TIMEOUT" | "UPSTREAM_API_ERROR" | "RATE_LIMIT_EXCEEDED" | "PAYLOAD_TOO_LARGE",
-      "error_code": "UPSTREAM_TIMEOUT",
-      "retake_message": "<friendly-arabic-error-message>",
-      "detail": "<non-sensitive-error-summary>"
-    }
-    ```
+| M1 | Typography, Readex Pro Font, Dynamic Rem Sizing & Touch Targets | F36, F39, F40, F41 (Readex Pro WOFF2 bundling, remove Google Fonts, rem tokens in Tailwind, root rem scaling, 48px/56px touch targets, test setup & legacy assertions update) | none | DONE |
+| M2 | Dark Mode Tokens, Theming & Android System Bars Synchronization | F42, F43, F44 (Tailwind dark class, token palette, `<head>` zero-flash script, Settings theme/font modal, `values-night/styles.xml`, WCAG AAA contrast) | M1 | IN_PROGRESS |
+| M3 | Navigation, Compact Top Bar, Center Camera Button & Lucide Icons | F30, F31, F32, F38, F47 (BottomNav 5 equal slots, 24px icons, 12px labels, 64px center camera button, compact top bar, Aa button, slim banner, replace emojis with Lucide) | M1, M2 | PLANNED |
+| M4 | Modern Cards, Result Screens & Sticky Action Padding | F29, F33, F34, F35, F37 (Sticky button compact secondary styling, `pb-36` scroll padding, compact result cards, redesigned Home screen, skeleton loaders, <200ms transitions) | M1, M2, M3 | PLANNED |
+| M5 | Launcher Icons, Splash Assets, Screenshot Suite, Build & Sign-off | F45, F46, F48, F49, F50 (Adaptive icons, light/dark splash screens, 84-screenshot matrix, version bump to 3/1.2, 100% tests pass, cap sync android, final secret scan, safe sign-off notice) | M1, M2, M3, M4 | PLANNED |
 
 ## Code Layout
-- `worker/src/index.ts`: Cloudflare Worker API router, Gemini API caller, system prompts, schemas, abort controller.
-- `worker/wrangler.toml`: Cloudflare Worker configuration, environment variables (`GEMINI_MODEL`, `GEMINI_MODEL_PRESCRIPTION`).
-- `src/types/index.ts`: TypeScript contracts for box results, prescription results, navigation tabs, error categories.
-- `src/utils/imageProcessor.ts`: Dual-mode image compression (1024px/0.7 for box, 1600px/0.8 for prescription).
-- `src/services/nativeCamera.ts`: Native `@capacitor/camera@6.1.2` integration (rear camera, gallery picker, permissions).
-- `src/services/geminiVision.ts`: Client API caller, 30s timeout handler, error classification.
-- `src/services/geminiParser.ts`: JSON normalization, prescription validation, `how_and_when` safe default fallback.
-- `src/services/detailsCache.ts`: Client-side cache for medicine details by name.
-- `src/components/BottomNavBar.tsx`: Fixed 5-tab RTL bottom navigation bar with raised 76px center camera button.
-- `src/components/HomeScreen.tsx`: Home tab view (greeting, 2 big cards, recent scans).
-- `src/components/PrescriptionFlow.tsx`: Prescription tab view (camera/gallery triggers, processing state).
-- `src/components/PrescriptionResultView.tsx`: Prescription multi-item card list, low-confidence amber cards, read-aloud button.
-- `src/components/MedicineDetailsModal.tsx`: Medicine detail view (4 cards) backed by details mode & cache.
-- `src/components/ResultCards.tsx`: 4-card medicine box view with `usage_source` badge and hardcoded Arabic disclaimer string.
-- `src/components/UnclearPhotoCard.tsx`: Unified unclear photo guidance (3 tips, retry button).
-- `src/App.tsx`: Tab state management, route switching, native mobile shell, safe area insets.
-- `src/index.css`: Native app CSS rules (`user-select: none`, `-webkit-tap-highlight-color: transparent`, `overscroll-behavior: none`).
-- `android/app/build.gradle`: Android versionCode (2) and versionName ("1.1").
-- `sign-release.bat`: Windows release APK signing script with version check/reminder.
+- `src/assets/fonts/`: Bundled Readex Pro WOFF2 font files.
+- `src/index.css`: Local `@font-face` rules, root rem sizing classes, touch target variables.
+- `src/types/index.ts`: TypeScript contracts for font size ('normal'|'large'|'extra-large') and theme ('system'|'light'|'dark').
+- `src/services/preferencesStorage.ts`: Font size and theme storage handlers.
+- `src/components/BottomNavBar.tsx`: 5 equal-width slots, 24px icons, 12px labels, 64px center camera button.
+- `src/components/TopBar.tsx` / `src/App.tsx`: Compact top bar, Aa button, Settings button, slim info banner.
+- `src/components/SettingsModal.tsx`: Font size and theme options.
+- `src/components/HomeScreen.tsx`: Redesigned modern greeting, 2 action cards, compact recent scans.
+- `src/components/PrescriptionResultView.tsx`: Compact medicine cards, compact sticky button, scroll padding fix.
+- `src/components/ResultCards.tsx`: 16px radius cards, prominent medicine names, expandable details.
+- `src/components/SkeletonLoader.tsx`: Pulse skeleton loaders.
+- `android/app/src/main/res/`: Adaptive icons (`mipmap-*`), splash drawables, `values-night/styles.xml`.
+- `android/app/build.gradle`: Version code (3) and version name ("1.2").
+- `sign-release.bat`: Version reminder and signing script.
+- `scripts/generate-app-assets.js`: Standalone Node.js script for adaptive icons and splash screens.
+- `scripts/capture-screenshots.js`: Chrome headless screenshot matrix runner.
 - `tests/`: Vitest test suites.

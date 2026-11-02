@@ -152,10 +152,10 @@ describe('Tier 3: Cross-Feature Combinations — Pairwise Integration Flows', ()
     expect(sanitized.how_and_when).toHaveLength(3);
     expect(sanitized.usage_source).toBe('common');
 
-    // 3. User switches font preference to extra-large (24px+)
+    // 3. User switches font preference to extra-large (23px root scale)
     const fontPref = 'extra-large';
-    const computedFontSize = fontPref === 'extra-large' ? 24 : 20;
-    expect(computedFontSize).toBe(24);
+    const computedFontSize = fontPref === 'extra-large' ? 23 : fontPref === 'large' ? 19 : 16;
+    expect(computedFontSize).toBe(23);
   });
 
   // =========================================================================

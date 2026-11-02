@@ -107,11 +107,11 @@ describe('Tier 2: Boundary & Corner Cases — Navigation Shell & Ergonomics (F03
   // F05 Boundaries
   // =========================================================================
   describe('F05: Native Tab Ergonomics Boundaries', () => {
-    it('1. verifies touch target height strictly fails under 64px and passes at 64px+', () => {
-      const validateTouchHeight = (h: number) => h >= 64;
-      expect(validateTouchHeight(63.9)).toBe(false);
-      expect(validateTouchHeight(64.0)).toBe(true);
-      expect(validateTouchHeight(72.0)).toBe(true);
+    it('1. verifies touch target height strictly fails under 48px and passes at 48px+', () => {
+      const validateTouchHeight = (h: number) => h >= 48;
+      expect(validateTouchHeight(47.9)).toBe(false);
+      expect(validateTouchHeight(48.0)).toBe(true);
+      expect(validateTouchHeight(56.0)).toBe(true);
     });
 
     it('2. verifies tab label with extreme length truncates without breaking height', () => {

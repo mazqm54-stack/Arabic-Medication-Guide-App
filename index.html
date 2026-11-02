@@ -15,17 +15,27 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
 
-    <!-- Google Fonts Preconnect & Stylesheets (Cairo & Tajawal) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Zero Startup Theme Flash Handler -->
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('dalili_theme_preference');
+          var isDark = theme === 'dark' || (theme !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            if (meta) meta.setAttribute('content', '#0E1517');
+          } else {
+            document.documentElement.classList.remove('dark');
+            if (meta) meta.setAttribute('content', '#006D77');
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <title>دليلي الدوائي | مساعد قراءة الأدوية لكبار السن</title>
   </head>
-  <body class="bg-[#F8F9FA] text-[#1D3557] font-sans antialiased min-h-screen selection:bg-teal-100 selection:text-teal-900">
+  <body class="bg-[#F8F9FA] dark:bg-[#0E1517] text-[#1D3557] dark:text-[#E6EEF0] font-sans antialiased min-h-screen selection:bg-teal-100 selection:text-teal-900">
     <noscript>
       <div style="padding: 24px; text-align: center; font-size: 20px; font-family: sans-serif; background-color: #FEF3C7; color: #92400E;">
         يرجى تفعيل الجافاسكريبت لتشغيل تطبيق دليلي الدوائي.

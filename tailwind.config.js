@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
@@ -41,27 +42,52 @@ export default {
           800: '#92400E', // High-Contrast Amber Text
           900: '#78350F',
         },
+        // Dark Mode High-Contrast Tokens (WCAG AAA)
+        dark: {
+          bg: '#0E1517',
+          surface: '#162124',
+          'surface-2': '#1D2B2F',
+          text: '#E6EEF0',
+          muted: '#9FB3B8',
+          primary: '#3DB8C4',
+          warning: '#3A2E12',
+          'warning-bg': '#3A2E12',
+          'warning-text': '#F5D58A',
+        },
+        'dark-bg': '#0E1517',
+        'dark-surface': '#162124',
+        'dark-surface-2': '#1D2B2F',
+        'dark-text': '#E6EEF0',
+        'dark-muted': '#9FB3B8',
+        'dark-primary': '#3DB8C4',
+        'dark-warning': '#3A2E12',
+        'dark-warning-bg': '#3A2E12',
+        'dark-warning-text': '#F5D58A',
       },
       fontFamily: {
-        sans: ['Cairo', 'Tajawal', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-        cairo: ['Cairo', 'sans-serif'],
-        tajawal: ['Tajawal', 'sans-serif'],
+        sans: ['"Readex Pro"', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        readex: ['"Readex Pro"', 'sans-serif'],
+        cairo: ['"Readex Pro"', 'sans-serif'],
+        tajawal: ['"Readex Pro"', 'sans-serif'],
       },
       fontSize: {
-        // Senior-Centric Typography Scale
-        'senior-sm': ['18px', { lineHeight: '1.7', fontWeight: '500' }],
-        'senior-base': ['20px', { lineHeight: '1.75', fontWeight: '600' }], // Minimum Body (Large)
-        'senior-lg': ['24px', { lineHeight: '1.8', fontWeight: '600' }],   // Extra Large Body
-        'senior-xl': ['28px', { lineHeight: '1.6', fontWeight: '700' }],   // Headings (Large)
-        'senior-2xl': ['32px', { lineHeight: '1.5', fontWeight: '800' }],  // Headings (Extra Large) / Headers
-        'senior-3xl': ['36px', { lineHeight: '1.4', fontWeight: '900' }],  // Prominent Titles
+        // Senior-Centric Typography Scale (rem-based dynamic scaling)
+        'senior-xs': ['0.75rem', { lineHeight: '1.5', fontWeight: '500' }],
+        'senior-sm': ['0.875rem', { lineHeight: '1.6', fontWeight: '500' }],
+        'senior-base': ['1rem', { lineHeight: '1.7', fontWeight: '500' }], // 16px -> 19px -> 23px
+        'senior-lg': ['1.1875rem', { lineHeight: '1.7', fontWeight: '600' }], // 19px -> 22.5px -> 27.3px
+        'senior-xl': ['1.375rem', { lineHeight: '1.5', fontWeight: '700' }], // 22px -> 26.1px -> 31.6px
+        'senior-2xl': ['1.625rem', { lineHeight: '1.4', fontWeight: '800' }], // 26px -> 30.8px -> 37.3px
+        'senior-3xl': ['2rem', { lineHeight: '1.3', fontWeight: '900' }], // 32px -> 38px -> 46px
       },
       minHeight: {
-        'touch': '64px',    // Mandatory minimum touch target height
+        'touch': '48px', // Minimum touch target height (48px base)
+        'touch-senior': '56px',
         'touch-lg': '72px', // Prominent action button height
       },
       minWidth: {
-        'touch': '64px',
+        'touch': '48px',
+        'touch-senior': '56px',
       },
       boxShadow: {
         'senior': '0 4px 14px 0 rgba(29, 53, 87, 0.08)',

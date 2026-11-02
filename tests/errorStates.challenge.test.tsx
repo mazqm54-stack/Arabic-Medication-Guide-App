@@ -644,7 +644,7 @@ describe('Adversarial Challenge Suite: Error States, Timeout Abortion & Interact
     ];
 
     allCategories.forEach(({ category, code, name }) => {
-      it(`enforces >=64px touch target height on all buttons for ${name}`, () => {
+      it(`enforces >=48px touch target height on all buttons for ${name}`, () => {
         render(
           <UnclearPhotoCard
             errorCategory={category}
@@ -658,7 +658,7 @@ describe('Adversarial Challenge Suite: Error States, Timeout Abortion & Interact
         expect(buttons.length).toBeGreaterThanOrEqual(1);
 
         for (const button of buttons) {
-          expect(button).toHaveMinTouchTarget(64);
+          expect(button).toHaveMinTouchTarget(48);
         }
       });
 

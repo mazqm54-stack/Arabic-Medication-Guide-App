@@ -2,10 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Readex Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/ReadexPro-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Readex Pro';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./assets/fonts/ReadexPro-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Readex Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/ReadexPro-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Readex Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/ReadexPro-Bold.woff2') format('woff2');
+}
+
 @layer base {
   :root {
     color-scheme: light;
-    --touch-min: 64px;
+    --touch-min: 48px;
     --text-primary: #1D3557;
     --bg-primary: #F8F9FA;
     --brand-teal: #006D77;
@@ -13,10 +45,26 @@
     --amber-text: #92400E;
   }
 
+  .dark {
+    color-scheme: dark;
+    --color-bg: #0E1517;
+    --color-surface: #162124;
+    --color-surface-2: #1D2B2F;
+    --color-text: #E6EEF0;
+    --color-text-muted: #9FB3B8;
+    --color-primary: #3DB8C4;
+    --color-warning-box: #3A2E12;
+    --text-primary: #E6EEF0;
+    --bg-primary: #0E1517;
+    --brand-teal: #3DB8C4;
+    --amber-soft: #3A2E12;
+    --amber-text: #F5D58A;
+  }
+
   html {
     direction: rtl;
-    font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    font-size: 20px; /* Senior base default */
+    font-family: 'Readex Pro', 'Cairo', 'Tajawal', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px; /* Senior base default (normal) */
     background-color: var(--bg-primary);
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
@@ -50,7 +98,7 @@
   input[type="submit"],
   input[type="file"],
   select {
-    min-height: 64px;
+    min-height: var(--touch-min, 48px);
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
@@ -59,25 +107,25 @@
 @layer components {
   /* Senior Touch Target Utility */
   .btn-touch {
-    min-height: 64px;
-    min-width: 64px;
+    min-height: var(--touch-min, 48px);
+    min-width: var(--touch-min, 48px);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
     padding: 0.875rem 1.5rem;
-    font-size: 1.25rem; /* 20px+ */
+    font-size: 1.25rem;
     font-weight: 700;
     border-radius: 1rem;
     transition: all 0.2s ease-in-out;
   }
 
   .btn-primary {
-    @apply btn-touch bg-teal-600 text-white hover:bg-teal-700 active:scale-[0.98] shadow-senior focus:ring-4 focus:ring-teal-200 outline-none;
+    @apply btn-touch bg-teal-600 dark:bg-[#3DB8C4] text-white dark:text-[#0E1517] dark:font-extrabold hover:bg-teal-700 dark:hover:bg-[#349fa8] active:scale-[0.98] shadow-senior focus:ring-4 focus:ring-teal-200 dark:focus:ring-teal-900 outline-none;
   }
 
   .btn-secondary {
-    @apply btn-touch bg-white text-slate-900 border-2 border-slate-300 hover:bg-slate-50 active:scale-[0.98] focus:ring-4 focus:ring-slate-200 outline-none;
+    @apply btn-touch bg-white dark:bg-[#162124] text-slate-900 dark:text-[#E6EEF0] border-2 border-slate-300 dark:border-[#1D2B2F] hover:bg-slate-50 dark:hover:bg-[#1D2B2F] active:scale-[0.98] focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-800 outline-none;
   }
 
   /* Safe Area Padding Utilities for Android devices */
@@ -100,30 +148,40 @@
 
   /* Card 1: Medicine Identity (Teal border & accent) */
   .card-identity {
-    @apply card-senior bg-white border-teal-600 text-slate-900;
+    @apply card-senior bg-white dark:bg-[#162124] border-teal-600 dark:border-[#3DB8C4] text-slate-900 dark:text-[#E6EEF0];
   }
 
   /* Card 2: Uses (Blue/Slate border) */
   .card-uses {
-    @apply card-senior bg-white border-blue-600 text-slate-900;
+    @apply card-senior bg-white dark:bg-[#162124] border-blue-600 dark:border-blue-400 text-slate-900 dark:text-[#E6EEF0];
   }
 
   /* Card 3: Dosage & Schedule (Emerald border) */
   .card-schedule {
-    @apply card-senior bg-white border-emerald-600 text-slate-900;
+    @apply card-senior bg-white dark:bg-[#162124] border-emerald-600 dark:border-emerald-400 text-slate-900 dark:text-[#E6EEF0];
   }
 
   /* Card 4: Warnings & Cautions (Soft Amber Background) */
   .card-warnings {
-    @apply card-senior bg-[#FEF3C7] border-amber-500 text-[#92400E];
+    @apply card-senior bg-[#FEF3C7] dark:bg-[#3A2E12] border-amber-500 dark:border-amber-600 text-[#92400E] dark:text-[#F5D58A];
   }
 }
 
-/* Dynamic Font Sizing Control Classes */
-.font-mode-large {
-  font-size: 20px;
+/* Dynamic Rem Root Font Sizing & Touch Targets */
+html.font-size-normal,
+.font-mode-normal {
+  font-size: 16px;
+  --touch-min: 48px;
 }
 
+html.font-size-large,
+.font-mode-large {
+  font-size: 19px;
+  --touch-min: 56px;
+}
+
+html.font-size-extra-large,
 .font-mode-extra-large {
-  font-size: 24px;
+  font-size: 23px;
+  --touch-min: 56px;
 }

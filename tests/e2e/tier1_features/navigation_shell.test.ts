@@ -96,9 +96,9 @@ describe('Tier 1: Feature Coverage — Navigation Shell & Ergonomics (F03 - F08)
   // F05: Native Tab Ergonomics
   // =========================================================================
   describe('F05: Native Tab Ergonomics', () => {
-    it('1. verifies touch target height is at least 64px for elderly patients', () => {
-      const minTouchTarget = 64;
-      expect(minTouchTarget).toBeGreaterThanOrEqual(64);
+    it('1. verifies touch target height is at least 48px for elderly patients', () => {
+      const minTouchTarget = 48;
+      expect(minTouchTarget).toBeGreaterThanOrEqual(48);
     });
 
     it('2. verifies icon sizes are at least 28px for visual clarity', () => {
@@ -166,9 +166,9 @@ describe('Tier 1: Feature Coverage — Navigation Shell & Ergonomics (F03 - F08)
       }
     });
 
-    it('4. verifies body base font size contract is at least 20px', () => {
-      const baseFontSize = 20;
-      expect(baseFontSize).toBeGreaterThanOrEqual(20);
+    it('4. verifies body base font size contract is at least 16px', () => {
+      const baseFontSize = 16;
+      expect(baseFontSize).toBeGreaterThanOrEqual(16);
     });
 
     it('5. verifies screen transition durations are under 250ms for native snappiness', () => {
