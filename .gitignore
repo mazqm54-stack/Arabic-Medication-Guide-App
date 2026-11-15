@@ -49,3 +49,6 @@ scratch/
 screenshots/
 =
 
+
+worker/.wrangler/
+data/
