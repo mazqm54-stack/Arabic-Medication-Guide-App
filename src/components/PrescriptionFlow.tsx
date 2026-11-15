@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Camera, Image, AlertTriangle } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Camera, Image, AlertTriangle, FileText } from 'lucide-react';
 import {
   PrescriptionAnalysisResult,
   PrescriptionItem,
@@ -35,6 +35,45 @@ export const PrescriptionFlow: React.FC<PrescriptionFlowProps> = ({
   const [errorCategory, setErrorCategory] = useState<ErrorCategory | undefined>(undefined);
   const [errorCode, setErrorCode] = useState<string | undefined>(undefined);
   const [selectedMedicine, setSelectedMedicine] = useState<PrescriptionItem | null>(null);
+
+  // Initialize mock result if requested via URL
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location) {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('mock') === 'prescription_result') {
+          setStatus('result');
+          setResult({
+            is_clear: true,
+            confidence: 'medium',
+            items: [
+              {
+                line_text_as_written: 'Concor 5mg tab 1x1',
+                medicine_name_ar: 'كونكور 5 مجم',
+                medicine_name_en: 'Concor 5mg',
+                active_ingredient: 'بيسوبرولول',
+                confidence: 'high',
+                written_instructions: 'قرص واحد يومياً صباحاً قبل الإفطار',
+                short_explanation: 'لعلاج ارتفاع ضغط الدم'
+              },
+              {
+                line_text_as_written: '??? 500mg tid',
+                medicine_name_ar: 'اسم غير واضح',
+                medicine_name_en: 'Unclear Item',
+                active_ingredient: 'غير محدد',
+                confidence: 'low',
+                written_instructions: 'يرجى مراجعة الصيدلي للتأكد من الاسم والجرعة',
+                short_explanation: 'غير واضح، اسأل الصيدلي'
+              }
+            ],
+            audio_summary: 'تحتوي الروشتة على دوائين، الأول كونكور بجرعة قرص صباحاً، والدواء الثاني غير واضح ويتطلب استشارة الصيدلي للتأكد منه.'
+          });
+        }
+      } catch {
+        // Ignore mock parsing errors
+      }
+    }
+  }, []);
 
   // Camera mutex lock against double taps
   const isCapturingRef = useRef<boolean>(false);
@@ -167,8 +206,9 @@ export const PrescriptionFlow: React.FC<PrescriptionFlowProps> = ({
       {status === 'idle' && (
         <div className="space-y-6">
           <div className="bg-blue-50 border-2 border-blue-600 rounded-3xl p-6 shadow-xs">
-            <h2 className="text-senior-xl font-bold text-blue-900 mb-2">
-              📋 قراءة الروشتة الطبية
+            <h2 className="text-senior-xl font-bold text-blue-900 mb-2 flex items-center gap-2">
+              <FileText className="w-6 h-6 text-blue-700" strokeWidth={2} aria-hidden="true" />
+              <span>قراءة الروشتة الطبية</span>
             </h2>
             <p className="text-senior-base text-slate-800 leading-relaxed font-medium">
               التقط صورة واضحة للروشتة أو اخترها من ألبوم الصور لقراءة أسماء الأدوية المكتوبة وشرح ما دونه الطبيب بدقة.

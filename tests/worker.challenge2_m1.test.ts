@@ -82,9 +82,11 @@ describe('Milestone M1 Challenger 2 Empirical Test Suite (tests/worker.challenge
       expect(itemsProperty.type).toBe('ARRAY');
       expect(itemsProperty.items.type).toBe('OBJECT');
 
-      // 7 Required fields in each prescription item
+      // Required fields in each prescription item (including M2 confirmation status)
       expect(itemsProperty.items.required).toEqual([
         'line_text_as_written',
+        'is_confirmed',
+        'status',
         'medicine_name_ar',
         'medicine_name_en',
         'active_ingredient',

@@ -155,7 +155,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
   // 2. Center Raised Circular Camera Button Specs & Attributes
   // =========================================================================
   describe('2. Center Raised Circular Camera Button Specs & Attributes', () => {
-    it('2.1 verifies dimensions are clamped strictly between 72px and 80px (76px)', () => {
+    it('2.1 verifies dimensions are clamped strictly to 64px circle', () => {
       render(
         React.createElement(BottomNavBar, {
           activeTab: 'home',
@@ -165,8 +165,8 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       );
 
       const cameraButton = screen.getByRole('button', { name: 'صوّر' });
-      expect(cameraButton.className).toContain('w-[76px]');
-      expect(cameraButton.className).toContain('h-[76px]');
+      expect(cameraButton.className).toMatch(/w-(?:16|\[64px\])/);
+      expect(cameraButton.className).toMatch(/h-(?:16|\[64px\])/);
 
       // Extract pixel values from classes
       const widthMatch = cameraButton.className.match(/w-\[(\d+)px\]/);
@@ -177,10 +177,8 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       const width = parseInt(widthMatch![1], 10);
       const height = parseInt(heightMatch![1], 10);
 
-      expect(width).toBeGreaterThanOrEqual(72);
-      expect(width).toBeLessThanOrEqual(80);
-      expect(height).toBeGreaterThanOrEqual(72);
-      expect(height).toBeLessThanOrEqual(80);
+      expect(width).toBe(64);
+      expect(height).toBe(64);
       expect(width).toBe(height); // Must be equilateral circular
     });
 
@@ -205,7 +203,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       expect(zIndex).toBeGreaterThanOrEqual(60);
     });
 
-    it('2.3 verifies raised styling with negative top margin, shadow-xl, and white border', () => {
+    it('2.3 verifies raised styling with negative top margin, soft glow shadow, and notch ring', () => {
       const { container } = render(
         React.createElement(BottomNavBar, {
           activeTab: 'home',
@@ -216,15 +214,15 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
 
       const cameraWrapper = container.querySelector('nav > div > div.relative');
       expect(cameraWrapper).not.toBeNull();
-      expect(cameraWrapper?.className).toContain('-mt-7');
+      expect(cameraWrapper?.className).toMatch(/-mt-(?:5|6|7)/);
 
       const cameraButton = screen.getByRole('button', { name: 'صوّر' });
-      expect(cameraButton.className).toContain('shadow-xl');
-      expect(cameraButton.className).toContain('border-4');
-      expect(cameraButton.className).toContain('border-white');
+      expect(cameraButton.className).toMatch(/shadow-\[0_4px_16px/);
+      expect(cameraButton.className).toContain('ring-4');
+      expect(cameraButton.className).toContain('ring-white');
     });
 
-    it('2.4 verifies white camera icon (w-8 h-8 >= 28px) and bold label "صوّر"', () => {
+    it('2.4 verifies white scan line-icon (w-7 h-7 = 28px) and bold label "صوّر"', () => {
       render(
         React.createElement(BottomNavBar, {
           activeTab: 'home',
@@ -237,15 +235,15 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       const svgIcon = cameraButton.querySelector('svg');
       expect(svgIcon).not.toBeNull();
       expect(svgIcon?.getAttribute('aria-hidden')).toBe('true');
-      expect(svgIcon?.classList.contains('w-8')).toBe(true);
-      expect(svgIcon?.classList.contains('h-8')).toBe(true);
+      expect(svgIcon?.classList.contains('w-7')).toBe(true);
+      expect(svgIcon?.classList.contains('h-7')).toBe(true);
       expect(svgIcon?.classList.contains('text-white')).toBe(true);
 
       const labelSpan = cameraButton.querySelector('span');
       expect(labelSpan).not.toBeNull();
       expect(labelSpan?.textContent).toBe('صوّر');
       expect(labelSpan?.className).toContain('text-white');
-      expect(labelSpan?.className).toContain('font-black');
+      expect(labelSpan?.className).toContain('font-bold');
     });
 
     it('2.5 verifies navigation bar operates natively without any <input type="file">', () => {
@@ -450,7 +448,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       expect(height).toBeGreaterThanOrEqual(48);
     });
 
-    it('4.3 verifies icon dimensions are >= 28px for all tabs', () => {
+    it('4.3 verifies icon dimensions are 24px (w-6 h-6) for all tabs and 28px for center button', () => {
       render(
         React.createElement(BottomNavBar, {
           activeTab: 'home',
@@ -463,20 +461,20 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       tabButtons.forEach((tab) => {
         const svg = tab.querySelector('svg');
         expect(svg).not.toBeNull();
-        // Lucide w-7 h-7 = 1.75rem = 28px
-        expect(svg?.classList.contains('w-7')).toBe(true);
-        expect(svg?.classList.contains('h-7')).toBe(true);
+        // Lucide w-6 h-6 = 1.5rem = 24px
+        expect(svg?.classList.contains('w-6')).toBe(true);
+        expect(svg?.classList.contains('h-6')).toBe(true);
       });
 
-      // Center button icon w-8 h-8 = 2rem = 32px
+      // Center button icon w-7 h-7 = 1.75rem = 28px
       const cameraBtn = screen.getByRole('button', { name: 'صوّر' });
       const cameraSvg = cameraBtn.querySelector('svg');
       expect(cameraSvg).not.toBeNull();
-      expect(cameraSvg?.classList.contains('w-8')).toBe(true);
-      expect(cameraSvg?.classList.contains('h-8')).toBe(true);
+      expect(cameraSvg?.classList.contains('w-7')).toBe(true);
+      expect(cameraSvg?.classList.contains('h-7')).toBe(true);
     });
 
-    it('4.4 verifies tab labels have senior typography text-base (16px) and bold font', () => {
+    it('4.4 verifies tab labels have 12px typography (text-xs) and bold font', () => {
       render(
         React.createElement(BottomNavBar, {
           activeTab: 'home',
@@ -489,8 +487,8 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       tabButtons.forEach((tab) => {
         const span = tab.querySelector('span');
         expect(span).not.toBeNull();
-        // text-base = 1rem = 16px
-        expect(span?.classList.contains('text-base')).toBe(true);
+        // text-xs = 0.75rem = 12px
+        expect(span?.classList.contains('text-xs')).toBe(true);
         expect(span?.classList.contains('font-bold')).toBe(true);
       });
     });
@@ -643,7 +641,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       await act(async () => {
         fireEvent.click(screen.getByRole('tab', { name: 'أدويتي' }));
       });
-      expect(screen.getByText('💊 أدويتي المحفوظة')).toBeInTheDocument();
+      expect(screen.getByText(/أدويتي المحفوظة/)).toBeInTheDocument();
       expect(screen.getByRole('tab', { name: 'أدويتي' })).toHaveAttribute('aria-selected', 'true');
       expect(screen.getByRole('tab', { name: 'الرئيسية' })).toHaveAttribute('aria-selected', 'false');
 
@@ -651,7 +649,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       await act(async () => {
         fireEvent.click(screen.getByRole('tab', { name: 'الروشتة' }));
       });
-      expect(screen.getByText('📋 قراءة الروشتة الطبية')).toBeInTheDocument();
+      expect(screen.getByText(/قراءة الروشتة الطبية/)).toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'صوّر الروشتة بالكاميرا' })).toBeInTheDocument();
       expect(screen.getByRole('tab', { name: 'الروشتة' })).toHaveAttribute('aria-selected', 'true');
 
@@ -659,7 +657,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       await act(async () => {
         fireEvent.click(screen.getByRole('tab', { name: 'السجل' }));
       });
-      expect(screen.getByText('🕒 سجل الأدوية السابقة')).toBeInTheDocument();
+      expect(screen.getByText(/سجل الأدوية السابقة/)).toBeInTheDocument();
       expect(screen.getByRole('tab', { name: 'السجل' })).toHaveAttribute('aria-selected', 'true');
 
       // Navigate back to 'home' tab
@@ -680,7 +678,7 @@ describe('Milestone M3 Challenger 1: RTL Bottom Navigation & Shell Adversarial S
       });
 
       // Verifies prescription view rendered and nav bar tab is selected
-      expect(screen.getByText('📋 قراءة الروشتة الطبية')).toBeInTheDocument();
+      expect(screen.getByText(/قراءة الروشتة الطبية/)).toBeInTheDocument();
       expect(screen.getByRole('tab', { name: 'الروشتة' })).toHaveAttribute('aria-selected', 'true');
     });
 

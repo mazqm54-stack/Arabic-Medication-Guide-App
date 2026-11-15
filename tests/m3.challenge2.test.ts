@@ -172,7 +172,7 @@ describe('M3 Adversarial Challenge 2: HomeScreen, Mobile CSS, Error Handling & D
 
       const galleryButton = screen.getByRole('button', { name: 'اختيار صورة علبة دواء من الألبوم' });
       expect(galleryButton).toBeInTheDocument();
-      expect(galleryButton).toHaveTextContent('📁 أو اختر صورة من الألبوم');
+      expect(galleryButton).toHaveTextContent('أو اختر صورة من الألبوم');
 
       fireEvent.click(galleryButton);
 

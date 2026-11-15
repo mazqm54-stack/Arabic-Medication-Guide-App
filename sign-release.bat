@@ -28,7 +28,7 @@ echo ======================================================================
 echo [REMINDER] Before proceeding, verify that versionCode and versionName
 echo            in android/app/build.gradle are incremented for clean APK
 echo            upgrades on target Android devices.
-echo            Current release: versionCode 2, versionName "1.1"
+echo            Current release: versionCode 3, versionName "1.2"
 echo ======================================================================
 echo.
 

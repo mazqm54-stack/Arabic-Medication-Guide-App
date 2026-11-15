@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Camera, Image, Sparkles, AlertTriangle } from 'lucide-react';
+import { Camera, Image, Sparkles, AlertTriangle, X } from 'lucide-react';
 import { capturePhoto, pickPhoto } from '../services/nativeCamera';
 
 interface CameraCaptureProps {
@@ -74,7 +74,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onImageSelected, d
             className="text-amber-800 hover:text-amber-950 font-extrabold px-2 py-1 rounded-lg"
             aria-label="إغلاق التنبيه"
           >
-            ✕
+            <X className="w-5 h-5" strokeWidth={2} aria-hidden="true" />
           </button>
         </div>
       )}
@@ -88,9 +88,9 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onImageSelected, d
         aria-label="صوّر علبة الدواء الآن باستخدام الكاميرا"
       >
         <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
-          <Camera className="w-8 h-8 text-white" aria-hidden="true" />
+          <Camera className="w-8 h-8 text-white" strokeWidth={2} aria-hidden="true" />
         </div>
-        <span>📷 صوّر علبة الدواء الآن</span>
+        <span>صوّر علبة الدواء الآن</span>
       </button>
 
       {/* Secondary Gallery Picker Option - Native Photos Picker */}
@@ -101,8 +101,8 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onImageSelected, d
         className="w-full min-h-[64px] bg-white hover:bg-slate-50 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed text-slate-900 border-2 border-slate-300 rounded-2xl p-4 flex items-center justify-center gap-3 text-senior-lg font-bold shadow-sm transition-all"
         aria-label="أو اختيار صورة محفوظة مسبقاً من الألبوم"
       >
-        <Image className="w-7 h-7 text-slate-700" aria-hidden="true" />
-        <span>📁 أو اختر صورة من الألبوم</span>
+        <Image className="w-7 h-7 text-slate-700" strokeWidth={2} aria-hidden="true" />
+        <span>أو اختر صورة من الألبوم</span>
       </button>
 
       <div className="flex items-center justify-center gap-2 text-slate-600 text-senior-base pt-2">

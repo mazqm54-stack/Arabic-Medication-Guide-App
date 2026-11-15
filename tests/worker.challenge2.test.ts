@@ -66,6 +66,8 @@ describe('Milestone M1 Challenger 2: Adversarial Verification Harness', () => {
       expect(itemsSchema.items.type).toBe('OBJECT');
       expect(itemsSchema.items.required).toEqual([
         'line_text_as_written',
+        'is_confirmed',
+        'status',
         'medicine_name_ar',
         'medicine_name_en',
         'active_ingredient',

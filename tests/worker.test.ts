@@ -535,7 +535,8 @@ describe('Cloudflare Worker (/worker/src/index.ts)', () => {
 
     expect(response.status).toBe(200);
     expect(capturedUrl).toContain('/models/gemini-3.8-flash:generateContent');
-    expect(capturedBody.generationConfig.thinkingConfig.thinkingLevel).toBe('LOW');
+    expect(capturedBody.generationConfig.thinkingConfig.thinkingLevel).toBe('MEDIUM');
+    expect(capturedBody.generationConfig.mediaResolution).toBe('MEDIA_RESOLUTION_HIGH');
     expect(capturedBody.generationConfig.temperature).toBeUndefined();
     expect(capturedBody.systemInstruction.parts[0].text).toContain('doctor\'s medical prescription');
 

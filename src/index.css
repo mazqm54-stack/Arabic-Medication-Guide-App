@@ -185,3 +185,13 @@ html.font-size-extra-large,
   font-size: 23px;
   --touch-min: 56px;
 }
+
+/* Accessibility: System prefers-reduced-motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

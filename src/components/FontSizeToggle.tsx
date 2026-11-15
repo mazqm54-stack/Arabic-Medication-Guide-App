@@ -19,9 +19,9 @@ export const FontSizeToggle: React.FC<FontSizeToggleProps> = ({ currentSize, onT
   };
 
   const getLabel = () => {
-    if (currentSize === 'extra-large') return '🔍 خط كبير جداً (مفعّل)';
-    if (currentSize === 'large') return '🔍 خط كبير (مفعّل)';
-    return '🔍 خط عادي (مفعّل)';
+    if (currentSize === 'extra-large') return 'خط كبير جداً (مفعّل)';
+    if (currentSize === 'large') return 'خط كبير (مفعّل)';
+    return 'خط عادي (مفعّل)';
   };
 
   const currentText = currentSize === 'extra-large' ? 'كبير جداً' : currentSize === 'large' ? 'كبير' : 'عادي';

@@ -81,8 +81,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
             className="btn-primary w-full min-h-[64px] sm:min-h-[72px] flex items-center justify-center gap-3 text-senior-xl font-bold bg-teal-700 hover:bg-teal-800 dark:bg-[#3DB8C4] dark:hover:bg-[#349fa8] text-white dark:text-[#0E1517] disabled:opacity-50"
             aria-label="إعادة المحاولة الآن"
           >
-            <RefreshCw className="w-7 h-7" />
-            <span>🔄 إعادة المحاولة الآن</span>
+            <RefreshCw className="w-6 h-6" strokeWidth={2} />
+            <span>إعادة المحاولة الآن</span>
           </button>
 
           {onRetake && (
@@ -92,8 +92,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
               className="btn-secondary w-full min-h-[64px] flex items-center justify-center gap-3 text-senior-lg font-bold bg-white dark:bg-[#162124] text-slate-700 dark:text-[#E6EEF0] border-2 border-slate-300 dark:border-[#1D2B2F] hover:bg-slate-100 dark:hover:bg-[#1D2B2F]"
               aria-label={isPrescription ? "تصوير روشتة أخرى" : "تصوير علبة أخرى"}
             >
-              <Camera className="w-6 h-6" />
-              <span>📷 {isPrescription ? "تصوير روشتة أخرى" : "تصوير علبة أخرى"}</span>
+              <Camera className="w-6 h-6" strokeWidth={2} />
+              <span>{isPrescription ? "تصوير روشتة أخرى" : "تصوير علبة أخرى"}</span>
             </button>
           )}
         </div>
@@ -139,8 +139,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
             className="btn-primary w-full min-h-[64px] sm:min-h-[72px] flex items-center justify-center gap-3 text-senior-xl font-bold bg-teal-700 hover:bg-teal-800 dark:bg-[#3DB8C4] dark:hover:bg-[#349fa8] text-white dark:text-[#0E1517] disabled:opacity-50"
             aria-label="إعادة المحاولة الآن"
           >
-            <RefreshCw className="w-7 h-7" />
-            <span>🔄 إعادة المحاولة الآن</span>
+            <RefreshCw className="w-6 h-6" strokeWidth={2} />
+            <span>إعادة المحاولة الآن</span>
           </button>
 
           {onRetake && (
@@ -150,8 +150,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
               className="btn-secondary w-full min-h-[64px] flex items-center justify-center gap-3 text-senior-lg font-bold bg-white dark:bg-[#162124] text-slate-700 dark:text-[#E6EEF0] border-2 border-slate-300 dark:border-[#1D2B2F] hover:bg-slate-100 dark:hover:bg-[#1D2B2F]"
               aria-label="العودة للرئيسية"
             >
-              <Home className="w-6 h-6" />
-              <span>🏠 العودة للرئيسية</span>
+              <Home className="w-6 h-6" strokeWidth={2} />
+              <span>العودة للرئيسية</span>
             </button>
           )}
         </div>
@@ -185,8 +185,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
             className="btn-primary w-full min-h-[64px] sm:min-h-[72px] flex items-center justify-center gap-3 text-senior-xl font-bold bg-teal-700 hover:bg-teal-800 dark:bg-[#3DB8C4] dark:text-[#0E1517] dark:hover:bg-[#329ba6] disabled:opacity-50"
             aria-label="إعادة المحاولة الآن"
           >
-            <RefreshCw className="w-7 h-7" />
-            <span>🔄 إعادة المحاولة الآن</span>
+            <RefreshCw className="w-6 h-6" strokeWidth={2} />
+            <span>إعادة المحاولة الآن</span>
           </button>
 
           {onRetake && (
@@ -196,8 +196,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
               className="btn-secondary w-full min-h-[64px] flex items-center justify-center gap-3 text-senior-lg font-bold bg-white dark:bg-[#162124] text-slate-700 dark:text-[#E6EEF0] border-2 border-slate-300 dark:border-[#1D2B2F] hover:bg-slate-100 dark:hover:bg-[#1D2B2F]"
               aria-label={isPrescription ? "تصوير روشتة أخرى" : "تصوير دواء آخر"}
             >
-              <Camera className="w-6 h-6" />
-              <span>📷 {isPrescription ? "تصوير روشتة أخرى" : "تصوير دواء آخر"}</span>
+              <Camera className="w-6 h-6" strokeWidth={2} />
+              <span>{isPrescription ? "تصوير روشتة أخرى" : "تصوير دواء آخر"}</span>
             </button>
           )}
         </div>
@@ -288,8 +288,8 @@ export const UnclearPhotoCard: React.FC<UnclearPhotoCardProps> = ({
         className="btn-primary w-full min-h-[64px] sm:min-h-[72px] flex items-center justify-center gap-3 text-senior-xl font-bold bg-teal-700 hover:bg-teal-800 dark:bg-[#3DB8C4] dark:text-[#0E1517] dark:hover:bg-[#329ba6] disabled:opacity-50"
         aria-label={retakeButtonLabel || defaultAriaLabel}
       >
-        <RefreshCw className="w-7 h-7" />
-        <span>📷 {retakeButtonLabel || defaultButtonLabel}</span>
+        <Camera className="w-6 h-6" strokeWidth={2} />
+        <span>{retakeButtonLabel || defaultButtonLabel}</span>
       </button>
     </div>
   );

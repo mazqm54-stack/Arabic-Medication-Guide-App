@@ -3,6 +3,12 @@
  * Strictly derived from PROJECT.md § Interface Contracts and ORIGINAL_REQUEST.md
  */
 
+export interface SuggestedMedicine {
+  name_ar: string;
+  name_en: string;
+  confidence: 'high' | 'medium' | 'low';
+}
+
 export interface PrescriptionItem {
   line_text_as_written: string;
   medicine_name_ar: string;
@@ -11,6 +17,12 @@ export interface PrescriptionItem {
   confidence: 'high' | 'medium' | 'low';
   written_instructions: string;
   short_explanation: string;
+  // Phase 1 Rebuild enhancements (F06-F11)
+  is_confirmed?: boolean;
+  status?: 'confirmed' | 'suggested' | 'unclear';
+  visible_letters?: string;
+  suggested_medicines?: SuggestedMedicine[];
+  warning_note?: string;
 }
 
 export interface PrescriptionAnalysisResult {
@@ -20,6 +32,8 @@ export interface PrescriptionAnalysisResult {
   evidence_text: string;
   items: PrescriptionItem[];
   audio_summary: string;
+  // Phase 1 Rebuild enhancement (F07)
+  deduced_condition?: string;
 }
 
 export interface BoxAnalysisResult {
@@ -134,3 +148,91 @@ export function validateBoxSchema(data: any): { valid: boolean; errors: string[]
 
   return { valid: errors.length === 0, errors };
 }
+
+/**
+ * Validates whether an object adheres to the enhanced Phase 1 Prescription schema (F06-F11)
+ * Enforces clinical condition deduction, smart suggestions (max 2), strict dosage omission,
+ * and clear distinction between confirmed and suggested/unclear medicines.
+ */
+export function validatePhase1PrescriptionSchema(data: any): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: ['Response is not an object'] };
+  }
+
+  if (typeof data.is_clear !== 'boolean') errors.push('is_clear must be a boolean');
+  if (typeof data.retake_message !== 'string') errors.push('retake_message must be a string');
+  if (!['high', 'medium', 'low'].includes(data.confidence)) errors.push('confidence must be high, medium, or low');
+  if (typeof data.evidence_text !== 'string') errors.push('evidence_text must be a string');
+  if (typeof data.audio_summary !== 'string') errors.push('audio_summary must be a string');
+
+  if (data.is_clear && Array.isArray(data.items) && data.items.length > 0) {
+    if (typeof data.deduced_condition !== 'string' || !data.deduced_condition.trim()) {
+      errors.push('Phase 1 prescription with items must provide non-empty deduced_condition (F07)');
+    }
+  }
+
+  if (!Array.isArray(data.items)) {
+    errors.push('items must be an array');
+  } else {
+    if (data.items.length > 10) {
+      errors.push('items array exceeds maximum allowed 10 items');
+    }
+    data.items.forEach((item: any, idx: number) => {
+      if (typeof item.line_text_as_written !== 'string') errors.push(`items[${idx}].line_text_as_written must be string`);
+      if (typeof item.is_confirmed !== 'boolean') errors.push(`items[${idx}].is_confirmed must be a boolean (F11)`);
+      if (!['confirmed', 'suggested', 'unclear'].includes(item.status)) {
+        errors.push(`items[${idx}].status must be 'confirmed', 'suggested', or 'unclear' (F11)`);
+      }
+
+      if (item.status === 'confirmed') {
+        if (!item.is_confirmed) {
+          errors.push(`items[${idx}] status is 'confirmed' but is_confirmed is false`);
+        }
+        if (typeof item.medicine_name_ar !== 'string' || !item.medicine_name_ar.trim()) {
+          errors.push(`items[${idx}] confirmed medicine must provide non-empty medicine_name_ar`);
+        }
+        if (typeof item.medicine_name_en !== 'string' || !item.medicine_name_en.trim()) {
+          errors.push(`items[${idx}] confirmed medicine must provide non-empty medicine_name_en`);
+        }
+      } else if (item.status === 'suggested') {
+        if (item.is_confirmed) {
+          errors.push(`items[${idx}] status is 'suggested' but is_confirmed is true (must be false)`);
+        }
+        // F09: Strict Suggestion Safety & Dosage Omission
+        if (item.written_instructions && item.written_instructions.trim() !== '') {
+          errors.push(`items[${idx}] status is 'suggested' but provides written_instructions: "${item.written_instructions}". DOSAGES MUST BE OMITTED FOR SUGGESTIONS (F09)`);
+        }
+        // F08: Smart Handwriting Suggestions (up to 2 potential medicines)
+        if (!Array.isArray(item.suggested_medicines) || item.suggested_medicines.length === 0 || item.suggested_medicines.length > 2) {
+          errors.push(`items[${idx}] suggested item must provide suggested_medicines array with 1 to 2 entries (F08)`);
+        } else {
+          item.suggested_medicines.forEach((sug: any, sIdx: number) => {
+            if (typeof sug.name_ar !== 'string' || !sug.name_ar.trim()) {
+              errors.push(`items[${idx}].suggested_medicines[${sIdx}].name_ar must be non-empty string`);
+            }
+            if (typeof sug.name_en !== 'string' || !sug.name_en.trim()) {
+              errors.push(`items[${idx}].suggested_medicines[${sIdx}].name_en must be non-empty string`);
+            }
+            if (!['high', 'medium', 'low'].includes(sug.confidence)) {
+              errors.push(`items[${idx}].suggested_medicines[${sIdx}].confidence must be high, medium, or low`);
+            }
+          });
+        }
+        if (typeof item.warning_note !== 'string' || !item.warning_note.includes('صيدلي')) {
+          errors.push(`items[${idx}] suggested item must provide warning_note instructing user to consult pharmacist (F09)`);
+        }
+      } else if (item.status === 'unclear') {
+        if (item.is_confirmed) {
+          errors.push(`items[${idx}] status is 'unclear' but is_confirmed is true (must be false)`);
+        }
+        if (item.written_instructions && item.written_instructions.trim() !== '') {
+          errors.push(`items[${idx}] status is 'unclear' but provides written_instructions. Instructions must be empty (F10)`);
+        }
+      }
+    });
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+

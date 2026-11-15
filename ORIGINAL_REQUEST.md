@@ -245,12 +245,12 @@ Integrity mode: development
 - [ ] Android status bar and navigation bar match active theme colors.
 
 ### Assets, Build, and Process
-- [ ] Adaptive launcher icon and splash screens (light and dark) generated across all Android asset densities.
-- [ ] Screenshots captured in browser at 360x800 and 320x640 in light and dark modes across all 3 font sizes for: home, medicine result, prescription result (with low-confidence item), unclear-photo, my medicines, history, settings, confirming zero clipping or overlapping.
-- [ ] Restore point commit "before-ui-redesign" intact and keystore/password files remain untracked in .gitignore.
-- [ ] No real plugins replaced with stubs or fake files.
-- [ ] All test suites pass without adding large numbers of unnecessary extra tests.
-- [ ] Final secret scan passes at the end with zero secrets found.
-- [ ] Version code and version name bumped.
-- [ ] Build succeeds and `npx.cmd cap sync android` completes without errors.
-- [ ] Short status message sent when each milestone ends, and explicit confirmation provided when it is safe to run `sign-release.bat`.
+- [x] Adaptive launcher icon and splash screens (light and dark) generated across all Android asset densities.
+- [x] Screenshots captured in browser at 360x800 and 320x640 in light and dark modes across all 3 font sizes for: home, medicine result, prescription result (with low-confidence item), unclear-photo, my medicines, history, settings, confirming zero clipping or overlapping.
+- [x] Restore point commit "before-ui-redesign" intact and keystore/password files remain untracked in .gitignore.
+- [x] No real plugins replaced with stubs or fake files.
+- [x] All test suites pass without adding large numbers of unnecessary extra tests.
+- [x] Final secret scan passes at the end with zero secrets found.
+- [x] Version code and version name bumped.
+- [x] Build succeeds and `npx.cmd cap sync android` completes without errors.
+- [x] Short status message sent when each milestone ends, and explicit confirmation provided when it is safe to run `sign-release.bat`.

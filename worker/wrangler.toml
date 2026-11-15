@@ -8,6 +8,20 @@ mode = "smart"
 [vars]
 GEMINI_MODEL = "gemini-3.5-flash-lite"
 GEMINI_MODEL_PRESCRIPTION = "gemini-3.5-flash-lite"
+PRESCRIPTION_THINKING_LEVEL = "MEDIUM"
+PRESCRIPTION_MEDIA_RESOLUTION = "MEDIA_RESOLUTION_HIGH"
+DEEP_THINKING_LEVEL = "HIGH"
+DEEP_MEDIA_RESOLUTION = "MEDIA_RESOLUTION_HIGH"
+ADMIN_KEY = "dalili-admin-2026"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "dalili-db"
+database_id = "f44c7bc8-43ba-4b89-87c5-50799b082d0c"
+
+[[kv_namespaces]]
+binding = "CONFIG_KV"
+id = "6f913cfc9c164b979cea773ea0bdffc5"
 
 
 # Cloudflare Rate Limiting (10 requests per minute)

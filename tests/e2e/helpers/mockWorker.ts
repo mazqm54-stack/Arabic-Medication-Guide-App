@@ -4,7 +4,16 @@
  */
 
 import { sampleBoxPrintedUsage, sampleBoxCommonUsage, sampleBoxDetailsMetformin } from '../fixtures/sampleBoxes';
-import { sampleClearPrescription, sampleMixedPrescription, sampleEmptyItemsPrescription } from '../fixtures/samplePrescriptions';
+import {
+  sampleClearPrescription,
+  sampleMixedPrescription,
+  sampleEmptyItemsPrescription,
+  samplePhase1ConfirmedPrescription,
+  samplePhase1MixedWithSuggestions,
+  samplePhase1ChronicPrescription,
+  samplePhase1CardiovascularPrescription,
+  samplePhase1UnclearFallback
+} from '../fixtures/samplePrescriptions';
 import { WorkerErrorResponse } from '../fixtures/testContracts';
 
 export interface MockWorkerConfig {
@@ -180,6 +189,41 @@ export class MockCloudflareWorker {
 
       if (body.image.includes('mixed')) {
         return new Response(JSON.stringify(sampleMixedPrescription), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      if (body.image.includes('phase1_suggestions')) {
+        return new Response(JSON.stringify(samplePhase1MixedWithSuggestions), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      if (body.image.includes('phase1_confirmed')) {
+        return new Response(JSON.stringify(samplePhase1ConfirmedPrescription), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      if (body.image.includes('phase1_chronic')) {
+        return new Response(JSON.stringify(samplePhase1ChronicPrescription), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      if (body.image.includes('phase1_cardio')) {
+        return new Response(JSON.stringify(samplePhase1CardiovascularPrescription), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      if (body.image.includes('phase1_unclear')) {
+        return new Response(JSON.stringify(samplePhase1UnclearFallback), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
         });

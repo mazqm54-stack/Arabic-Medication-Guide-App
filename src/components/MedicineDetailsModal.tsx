@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pill, Plus, Check, AlertTriangle } from 'lucide-react';
+import { Pill, Plus, Check, AlertTriangle, X } from 'lucide-react';
 import { PrescriptionItem, MedicineAnalysisResult, FontSizePreference } from '../types';
 import { fetchMedicineDetails } from '../services/geminiVision';
 import { saveMyMedicine, getMyMedicines } from '../services/myMedicinesStorage';
@@ -124,10 +124,10 @@ export const MedicineDetailsModal: React.FC<MedicineDetailsModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-[#1D2B2F] hover:bg-slate-200 dark:hover:bg-[#25373C] active:scale-95 text-slate-700 dark:text-[#E6EEF0] flex items-center justify-center text-xl font-bold"
+            className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-[#1D2B2F] hover:bg-slate-200 dark:hover:bg-[#25373C] active:scale-95 text-slate-700 dark:text-[#E6EEF0] flex items-center justify-center transition-all"
             aria-label="إغلاق نافذة التفاصيل"
           >
-            ✕
+            <X className="w-6 h-6" strokeWidth={2} aria-hidden="true" />
           </button>
         </div>
 
@@ -183,8 +183,8 @@ export const MedicineDetailsModal: React.FC<MedicineDetailsModalProps> = ({
             >
               {isSaved ? (
                 <>
-                  <Check className="w-7 h-7 text-emerald-700 dark:text-[#6EE7B7]" />
-                  <span>تمت الإضافة لقائمة أدويتي ✓</span>
+                  <Check className="w-6 h-6 text-emerald-700 dark:text-[#6EE7B7]" strokeWidth={2} />
+                  <span>تمت الإضافة لقائمة أدويتي</span>
                 </>
               ) : (
                 <>

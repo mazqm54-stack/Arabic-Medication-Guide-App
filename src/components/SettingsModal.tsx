@@ -9,6 +9,7 @@ export interface SettingsModalProps {
   onThemeChange: (theme: ThemePreference) => void;
   currentFontSize: FontSizePreference;
   onFontSizeChange: (size: FontSizePreference) => void;
+  mockWidth?: number | null;
 }
 
 export const THEME_OPTIONS: Array<{
@@ -70,6 +71,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onThemeChange,
   currentFontSize,
   onFontSizeChange,
+  mockWidth,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +96,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="settings-modal-title"
+      style={mockWidth ? { width: `${mockWidth}px`, maxWidth: `${mockWidth}px`, left: 0, right: 'auto' } : undefined}
       className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget) {

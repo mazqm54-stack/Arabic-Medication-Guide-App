@@ -243,7 +243,7 @@ describe('Milestone M4 Component & Service Suite', () => {
         fireEvent.click(addBtn);
       });
 
-      expect(screen.getByText('تمت الإضافة لقائمة أدويتي ✓')).toBeInTheDocument();
+      expect(screen.getByText(/تمت الإضافة لقائمة أدويتي/)).toBeInTheDocument();
       const stored = getMyMedicines();
       expect(stored).toHaveLength(1);
       expect(stored[0].name_ar).toBe('كونكور 5 مجم');

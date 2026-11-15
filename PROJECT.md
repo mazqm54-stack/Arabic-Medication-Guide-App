@@ -38,10 +38,10 @@
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
 | M1 | Typography, Readex Pro Font, Dynamic Rem Sizing & Touch Targets | F36, F39, F40, F41 (Readex Pro WOFF2 bundling, remove Google Fonts, rem tokens in Tailwind, root rem scaling, 48px/56px touch targets, test setup & legacy assertions update) | none | DONE |
-| M2 | Dark Mode Tokens, Theming & Android System Bars Synchronization | F42, F43, F44 (Tailwind dark class, token palette, `<head>` zero-flash script, Settings theme/font modal, `values-night/styles.xml`, WCAG AAA contrast) | M1 | IN_PROGRESS |
-| M3 | Navigation, Compact Top Bar, Center Camera Button & Lucide Icons | F30, F31, F32, F38, F47 (BottomNav 5 equal slots, 24px icons, 12px labels, 64px center camera button, compact top bar, Aa button, slim banner, replace emojis with Lucide) | M1, M2 | PLANNED |
-| M4 | Modern Cards, Result Screens & Sticky Action Padding | F29, F33, F34, F35, F37 (Sticky button compact secondary styling, `pb-36` scroll padding, compact result cards, redesigned Home screen, skeleton loaders, <200ms transitions) | M1, M2, M3 | PLANNED |
-| M5 | Launcher Icons, Splash Assets, Screenshot Suite, Build & Sign-off | F45, F46, F48, F49, F50 (Adaptive icons, light/dark splash screens, 84-screenshot matrix, version bump to 3/1.2, 100% tests pass, cap sync android, final secret scan, safe sign-off notice) | M1, M2, M3, M4 | PLANNED |
+| M2 | Dark Mode Tokens, Theming & Android System Bars Synchronization | F42, F43, F44 (Tailwind dark class, token palette, `<head>` zero-flash script, Settings theme/font modal, `values-night/styles.xml`, WCAG AAA contrast) | M1 | DONE |
+| M3 | Navigation, Compact Top Bar, Center Camera Button & Lucide Icons | F30, F31, F32, F38, F47 (BottomNav 5 equal slots, 24px icons, 12px labels, 64px center camera button, compact top bar, Aa button, slim banner, replace emojis with Lucide) | M1, M2 | DONE |
+| M4 | Modern Cards, Result Screens & Sticky Action Padding | F29, F33, F34, F35, F37 (Sticky button compact secondary styling, `pb-36` scroll padding, compact result cards, redesigned Home screen, skeleton loaders, <200ms transitions) | M1, M2, M3 | DONE |
+| M5 | Launcher Icons, Splash Assets, Screenshot Suite, Build & Sign-off | F45, F46, F48, F49, F50 (Adaptive icons, light/dark splash screens, 84-screenshot matrix, version bump to 3/1.2, 100% tests pass, cap sync android, final secret scan, safe sign-off notice) | M1, M2, M3, M4 | DONE |
 
 ## Code Layout
 - `src/assets/fonts/`: Bundled Readex Pro WOFF2 font files.

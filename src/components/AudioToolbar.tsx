@@ -66,8 +66,18 @@ export const AudioToolbar: React.FC<AudioToolbarProps> = ({ audioSummary, medici
           </h2>
         </div>
         {isActive && (
-          <span className="px-3 py-1 bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-[#3DB8C4] rounded-full font-bold text-sm">
-            {isSpeaking ? 'جاري القراءة الآن 🔊' : 'متوقف مؤقتاً ⏸️'}
+          <span className="px-3 py-1 bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-[#3DB8C4] rounded-full font-bold text-sm inline-flex items-center gap-1.5">
+            {isSpeaking ? (
+              <>
+                <Volume2 className="w-4 h-4" strokeWidth={2} />
+                <span>جاري القراءة الآن</span>
+              </>
+            ) : (
+              <>
+                <Pause className="w-4 h-4" strokeWidth={2} />
+                <span>متوقف مؤقتاً</span>
+              </>
+            )}
           </span>
         )}
       </div>
@@ -81,8 +91,8 @@ export const AudioToolbar: React.FC<AudioToolbarProps> = ({ audioSummary, medici
             className="btn-primary flex-1 min-h-[64px] flex items-center justify-center gap-3 text-senior-lg font-bold shadow-md"
             aria-label="استمع لتفاصيل الدواء بصوت واضح"
           >
-            <Play className="w-7 h-7" />
-            <span>🔊 استمع للمعلومات بصوت واضح</span>
+            <Play className="w-6 h-6" strokeWidth={2} />
+            <span>استمع للمعلومات بصوت واضح</span>
           </button>
         ) : (
           <>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Volume2, VolumeX, AlertTriangle, ChevronLeft, RotateCcw } from 'lucide-react';
+import { Volume2, VolumeX, AlertTriangle, ChevronLeft, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
 import { PrescriptionAnalysisResult, PrescriptionItem, FontSizePreference } from '../types';
 import { speechController } from '../services/speechController';
 import { DisclaimerBanner } from './DisclaimerBanner';
@@ -26,8 +26,19 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
   onReset,
 }) => {
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>({});
 
   const handleResetAction = onRetake || onReset || (() => {});
+
+  const toggleItemExpanded = (idx: number, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    setExpandedItems((prev) => ({
+      ...prev,
+      [idx]: !prev[idx],
+    }));
+  };
 
   useEffect(() => {
     const unsubscribe = speechController.subscribe((state) => {
@@ -61,14 +72,14 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
   const bodyClass = isExtraLarge ? 'text-senior-lg leading-loose' : 'text-senior-base leading-relaxed';
 
   return (
-    <div dir="rtl" className="w-full space-y-6 text-right animate-in fade-in duration-200">
-      {/* 1. Top Advisory Banner (F17) */}
+    <div dir="rtl" className="w-full space-y-6 text-right animate-in fade-in duration-200 pb-36">
+      {/* 1. Top Advisory Banner (F17 / F32) */}
       <div
         role="region"
         aria-label="تنبيه الروشتة"
-        className="bg-teal-50 dark:bg-[#162124] border-2 border-teal-200 dark:border-[#3DB8C4]/40 text-[#006D77] dark:text-[#3DB8C4] rounded-2xl p-4 flex items-center gap-3 shadow-xs"
+        className="bg-teal-50 dark:bg-[#162124] border border-teal-200 dark:border-[#3DB8C4]/40 text-[#006D77] dark:text-[#3DB8C4] rounded-2xl p-4 flex items-center gap-3 shadow-xs"
       >
-        <AlertTriangle className="w-7 h-7 text-[#006D77] dark:text-[#3DB8C4] flex-shrink-0" aria-hidden="true" />
+        <AlertTriangle className="w-6 h-6 text-[#006D77] dark:text-[#3DB8C4] flex-shrink-0" aria-hidden="true" />
         <p className="text-senior-base font-extrabold leading-normal">
           {PRESCRIPTION_ADVISORY_BANNER}
         </p>
@@ -83,7 +94,7 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
       <button
         type="button"
         onClick={handleToggleSpeech}
-        className={`w-full min-h-[64px] rounded-2xl p-4 flex items-center justify-center gap-3 font-extrabold text-senior-lg shadow-sm transition-all ${
+        className={`w-full min-h-[48px] sm:min-h-[56px] rounded-2xl p-4 flex items-center justify-center gap-3 font-extrabold text-senior-lg shadow-sm transition-all duration-150 motion-reduce:transition-none ${
           isSpeaking
             ? 'bg-amber-600 hover:bg-amber-700 text-white'
             : 'bg-teal-700 hover:bg-teal-800 dark:bg-[#3DB8C4] dark:hover:bg-[#349fa8] text-white dark:text-[#0E1517] dark:font-black'
@@ -92,24 +103,25 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
       >
         {isSpeaking ? (
           <>
-            <VolumeX className="w-7 h-7" aria-hidden="true" />
+            <VolumeX className="w-6 h-6" aria-hidden="true" />
             <span>إيقاف القراءة</span>
           </>
         ) : (
           <>
-            <Volume2 className="w-7 h-7" aria-hidden="true" />
+            <Volume2 className="w-6 h-6" aria-hidden="true" />
             <span>استمع للروشتة كاملة</span>
           </>
         )}
       </button>
 
-      {/* 3. Multi-Item Card List (F15, F16, F20) */}
+      {/* 3. Multi-Item Card List (F15, F16, F20, F33, F34) */}
       <div className="space-y-4" role="feed" aria-label="أدوية الروشتة">
         {result.items && result.items.map((item, idx) => {
           const isLow = item.confidence === 'low';
+          const isExpanded = Boolean(expandedItems[idx]);
 
           if (isLow) {
-            // Low-Confidence Amber Card (F16)
+            // Low-Confidence Amber Card (F16, F33, F34)
             const lineText = (item.line_text_as_written && item.line_text_as_written.trim().length > 0)
               ? item.line_text_as_written
               : (item.written_instructions && item.written_instructions.trim().length > 0
@@ -121,43 +133,52 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
                 key={`rx_item_${idx}`}
                 role="article"
                 aria-label="دواء غير واضح"
-                className="bg-[#FEF3C7] dark:bg-[#3A2E12] border-2 border-amber-400 dark:border-amber-600 text-amber-900 dark:text-[#F5D58A] rounded-2xl p-6 shadow-xs"
+                className="bg-[#FEF3C7] dark:bg-[#3A2E12] border border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-[#F5D58A] rounded-2xl p-5 shadow-sm space-y-3 transition-all duration-150 motion-reduce:transition-none"
               >
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-amber-200 dark:bg-amber-950/80 text-[#D97706] dark:text-[#F5D58A] flex items-center justify-center flex-shrink-0">
-                    <AlertTriangle className="w-7 h-7 text-[#D97706] dark:text-[#F5D58A]" aria-hidden="true" />
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <h3 className={`${headingClass} text-amber-950 dark:text-[#F5D58A] font-black`}>
-                      {LOW_CONFIDENCE_AMBER_TEXT}
-                    </h3>
-                    <div className="bg-amber-200/60 dark:bg-amber-900/40 p-3 rounded-xl border border-amber-300 dark:border-amber-700/60">
-                      <span className="text-xs font-bold text-amber-800 dark:text-[#F5D58A]/80 block mb-0.5">
-                        ما استطاع المعالج قراءته من الخط:
-                      </span>
-                      <p className="text-base font-mono font-bold text-amber-950 dark:text-[#F5D58A]" dir="ltr">
-                        {lineText}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-amber-200 dark:bg-amber-950/80 text-[#D97706] dark:text-[#F5D58A] flex items-center justify-center flex-shrink-0">
+                      <AlertTriangle className="w-6 h-6 text-[#D97706] dark:text-[#F5D58A]" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 className={`${headingClass} text-amber-950 dark:text-[#F5D58A] font-black`}>
+                        {LOW_CONFIDENCE_AMBER_TEXT}
+                      </h3>
+                      {/* Muted "as written" text */}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-mono mt-0.5">
+                        النص كما كُتب بالروشتة: {lineText}
                       </p>
                     </div>
                   </div>
+                  {/* Low confidence badge */}
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-200 dark:bg-amber-900 text-amber-900 dark:text-[#F5D58A] border border-amber-400 dark:border-amber-600">
+                    غير واضح
+                  </span>
+                </div>
+
+                <div className="bg-amber-200/60 dark:bg-amber-900/40 p-3 rounded-xl border border-amber-300 dark:border-amber-700/60">
+                  <span className="text-xs font-bold text-amber-800 dark:text-[#F5D58A]/80 block mb-0.5">
+                    ما استطاع المعالج قراءته من الخط:
+                  </span>
+                  <p className="text-base font-mono font-bold text-amber-950 dark:text-[#F5D58A]" dir="ltr">
+                    {lineText}
+                  </p>
                 </div>
               </div>
             );
           }
 
-          // Legible Prescription Card (F15, F20)
+          // Legible Prescription Card with Modern Visual Styling (F33, F34)
           return (
-            <button
+            <div
               key={`rx_item_${idx}`}
-              type="button"
-              onClick={() => onSelectMedicine(item)}
-              aria-label={`دواء ${item.medicine_name_ar || item.medicine_name_en}، اضغط لعرض التفاصيل`}
-              className="w-full text-right bg-white dark:bg-[#162124] hover:bg-teal-50/40 dark:hover:bg-[#1D2B2F] active:scale-[0.99] border-2 border-teal-600 dark:border-[#3DB8C4] rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col gap-3 group max-w-full"
+              role="article"
+              className="w-full text-right bg-white dark:bg-[#162124] border border-gray-100 dark:border-gray-800 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-150 motion-reduce:transition-none flex flex-col gap-3 group max-w-full"
             >
-              {/* Top row: Name & Badge */}
-              <div className="flex items-start justify-between gap-3 w-full border-b border-teal-100 dark:border-[#1D2B2F] pb-3">
-                <div>
-                  <h3 className={`${headingClass} text-teal-900 dark:text-[#E6EEF0] leading-tight font-extrabold`}>
+              {/* Top row: Prominent Medicine Name, Confidence Chip & Expand Chevron */}
+              <div className="flex items-start justify-between gap-3 w-full border-b border-gray-100 dark:border-gray-800/80 pb-3">
+                <div className="flex-1">
+                  <h3 className={`${headingClass} text-slate-900 dark:text-[#E6EEF0] leading-tight font-extrabold`}>
                     {item.medicine_name_ar || item.medicine_name_en}
                   </h3>
                   {item.medicine_name_en && (
@@ -165,19 +186,42 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
                       {item.medicine_name_en}
                     </p>
                   )}
+                  {/* Muted "as written" text (F34) */}
+                  <p className="text-xs text-gray-500 dark:text-gray-400 font-mono mt-1">
+                    النص كما كُتب: {item.line_text_as_written || item.written_instructions || 'بدون نص إضافي'}
+                  </p>
                 </div>
-                <span
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
-                    item.confidence === 'high'
-                      ? 'bg-emerald-100 dark:bg-[#064E3B] text-emerald-800 dark:text-[#6EE7B7] border border-emerald-300 dark:border-emerald-700'
-                      : 'bg-amber-100 dark:bg-[#451A03] text-amber-800 dark:text-[#FCD34D] border border-amber-300 dark:border-amber-700'
-                  }`}
-                >
-                  {item.confidence === 'high' ? 'واضح' : 'غير مؤكد'}
-                </span>
+
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {/* Confidence chip: color-coded badge */}
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                      item.confidence === 'high'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                        : 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+                    }`}
+                  >
+                    {item.confidence === 'high' ? 'واضح' : 'غير مؤكد'}
+                  </span>
+
+                  {/* Expandable Chevron Toggle Button (F34) */}
+                  <button
+                    type="button"
+                    onClick={(e) => toggleItemExpanded(idx, e)}
+                    aria-expanded={isExpanded}
+                    aria-label={isExpanded ? 'إخفاء تفاصيل الدواء' : 'عرض تفاصيل الدواء'}
+                    className="min-h-[48px] min-w-[48px] rounded-xl text-slate-500 hover:text-teal-700 dark:text-slate-400 dark:hover:text-[#3DB8C4] hover:bg-slate-50 dark:hover:bg-[#1D2B2F] active:scale-95 transition-all flex items-center justify-center"
+                  >
+                    {isExpanded ? (
+                      <ChevronUp className="w-5 h-5 text-teal-600 dark:text-[#3DB8C4]" strokeWidth={2} aria-hidden="true" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-slate-500 dark:text-slate-400" strokeWidth={2} aria-hidden="true" />
+                    )}
+                  </button>
+                </div>
               </div>
 
-              {/* Purpose */}
+              {/* Purpose / Short explanation */}
               {item.short_explanation && (
                 <p className={`${bodyClass} font-semibold text-slate-700 dark:text-[#E6EEF0]`}>
                   {item.short_explanation}
@@ -185,7 +229,7 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
               )}
 
               {/* ما كتبه الطبيب */}
-              <div className="bg-teal-50/80 dark:bg-[#1D2B2F] p-3.5 rounded-2xl border border-teal-200 dark:border-teal-800/60 w-full text-right">
+              <div className="bg-teal-50/70 dark:bg-[#1D2B2F] p-3.5 rounded-xl border border-teal-100 dark:border-teal-800/50 w-full text-right">
                 <span className="text-xs font-bold text-teal-800 dark:text-[#3DB8C4] block mb-1">
                   ما كتبه الطبيب:
                 </span>
@@ -194,12 +238,38 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
                 </p>
               </div>
 
-              {/* Tap Prompt */}
-              <div className="flex items-center justify-between text-teal-700 dark:text-[#3DB8C4] text-sm font-extrabold pt-1">
+              {/* Expandable details content when chevron is clicked */}
+              {isExpanded && (
+                <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2 text-sm text-slate-600 dark:text-slate-300 animate-in fade-in duration-150 motion-reduce:transition-none">
+                  {item.active_ingredient && (
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-slate-800 dark:text-[#E6EEF0]">المادة الفعالة:</span>
+                      <span>{item.active_ingredient}</span>
+                    </div>
+                  )}
+                  {item.written_instructions && (
+                    <div className="flex items-start gap-2">
+                      <span className="font-bold text-slate-800 dark:text-[#E6EEF0] flex-shrink-0">الجرعة والتعليمات:</span>
+                      <span>{item.written_instructions}</span>
+                    </div>
+                  )}
+                  <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-[#3A2E12]/40 border border-amber-200 dark:border-amber-800/50 text-xs text-amber-800 dark:text-[#F5D58A]">
+                    تنبيه: التعليمات إرشادية وتأكد دائماً من الصيدلي قبل تناول أي جرعة.
+                  </div>
+                </div>
+              )}
+
+              {/* Tap button to open full details modal (F15) */}
+              <button
+                type="button"
+                onClick={() => onSelectMedicine(item)}
+                aria-label={`دواء ${item.medicine_name_ar || item.medicine_name_en}، اضغط لعرض التفاصيل`}
+                className="w-full min-h-[48px] px-3 py-2 rounded-xl text-teal-700 dark:text-[#3DB8C4] hover:bg-teal-50/60 dark:hover:bg-[#1D2B2F] active:scale-[0.99] text-sm font-extrabold flex items-center justify-between transition-colors pt-1"
+              >
                 <span>عرض التفاصيل والدواعي والتحذيرات</span>
                 <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-              </div>
-            </button>
+              </button>
+            </div>
           );
         })}
       </div>
@@ -207,16 +277,16 @@ export const PrescriptionResultView: React.FC<PrescriptionResultViewProps> = ({
       {/* 4. Medical Disclaimer Banner (F08) */}
       <DisclaimerBanner />
 
-      {/* 5. Sticky Retake Action Button */}
-      <div className="sticky bottom-20 z-20 pt-2 pb-4 bg-gradient-to-t from-[#F8F9FA] dark:from-[#0E1517] via-[#F8F9FA]/90 dark:via-[#0E1517]/90 to-transparent">
+      {/* 5. Sticky Retake Action Button (F29) */}
+      <div className="sticky bottom-20 z-20 py-2 bg-gradient-to-t from-[#F8F9FA] dark:from-[#0E1517] via-[#F8F9FA]/80 dark:via-[#0E1517]/80 to-transparent">
         <button
           type="button"
           onClick={handleResetAction}
-          className="btn-primary w-full min-h-[64px] sm:min-h-[72px] flex items-center justify-center gap-3 text-senior-xl font-extrabold shadow-xl bg-teal-700 hover:bg-teal-800 dark:bg-[#3DB8C4] dark:hover:bg-[#349fa8] text-white dark:text-[#0E1517]"
+          className="w-full min-h-[48px] py-2.5 px-4 rounded-xl border border-teal-600 text-teal-700 dark:border-teal-400 dark:text-teal-300 bg-white dark:bg-[#162124] hover:bg-teal-50 dark:hover:bg-teal-900/30 font-bold text-sm sm:text-base shadow-sm transition-all duration-150 motion-reduce:transition-none flex items-center justify-center gap-2 active:scale-[0.98]"
           aria-label="تصوير روشتة أخرى"
         >
-          <RotateCcw className="w-7 h-7" />
-          <span>🔄 تصوير روشتة أخرى</span>
+          <RotateCcw className="w-5 h-5" strokeWidth={2} />
+          <span>تصوير روشتة أخرى</span>
         </button>
       </div>
     </div>

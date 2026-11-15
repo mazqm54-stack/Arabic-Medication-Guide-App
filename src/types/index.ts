@@ -2,6 +2,9 @@ export type ErrorCategory = 'network_timeout' | 'server_error' | 'unclear_image'
 
 export interface MedicineAnalysisResult {
   is_clear: boolean;
+  confidence?: 'high' | 'medium' | 'low';
+  evidence_text?: string;
+  retake_message?: string;
   medicine_name_ar?: string;
   medicine_name_en?: string;
   active_ingredient?: string;
