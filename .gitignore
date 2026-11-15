@@ -33,8 +33,19 @@ coverage
 *.jks
 *.keystore
 *.key
+key.properties
 keystore.properties
+**/key.properties
 *password*
 *.properties.local
 *.apk
+
+# Agent and temporary caches
+.agents/
+.cache/
+.localappdata/
+.pub-cache/
+scratch/
+screenshots/
+=
 

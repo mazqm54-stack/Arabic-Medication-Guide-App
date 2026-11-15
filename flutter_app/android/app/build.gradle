@@ -1,0 +1,111 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withReader('UTF-8') { reader ->
+        keystoreProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0.0'
+}
+
+android {
+    namespace "com.dalili.medicationguide"
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.dalili.medicationguide"
+        minSdkVersion 24
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    signingConfigs {
+        release {
+            def storePath = keystoreProperties['storeFile']
+            if (storePath) {
+                def kFile = rootProject.file(storePath)
+                if (!kFile.exists()) {
+                    kFile = file(storePath)
+                }
+                storeFile = kFile
+                storePassword = keystoreProperties['storePassword']
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            if (keystorePropertiesFile.exists() && keystoreProperties['storeFile'] != null) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.matching { it.name.contains("strip") && it.name.contains("DebugSymbols") }.configureEach { task ->
+        task.doLast {
+            def stripExe = file("C:/flutter/ndk_custom/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-strip.exe")
+            if (stripExe.exists()) {
+                task.outputs.files.each { outDir ->
+                    if (outDir.exists()) {
+                        fileTree(dir: outDir, include: '**/*.so').each { soFile ->
+                            logger.quiet("Running custom llvm-strip on ${soFile.name} (${Math.round(soFile.length() / (1024 * 1024))} MB)...")
+                            exec {
+                                commandLine stripExe.absolutePath, '--strip-all', soFile.absolutePath
+                            }
+                            logger.quiet("Successfully stripped ${soFile.name} to ${Math.round(soFile.length() / (1024 * 1024))} MB")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {}
